@@ -871,11 +871,11 @@ function FAQ() {
 /* ═══════════════════════ CTA ═══════════════════════ */
 function CTA() {
   return (
-    <section id="contact" className="w-full relative overflow-hidden">
-      {/* Blue section with curved bottom */}
-      <div className="w-full bg-[#1e4bff] pt-20 md:pt-32 pb-40 md:pb-52 px-4 md:px-12 relative overflow-hidden" style={{ borderRadius: '0 0 50% 50% / 0 0 60px 60px' }}>
+    <section id="contact" className="w-full relative px-3 md:px-8 pt-8 md:pt-12 pb-0 bg-[#fafafa]">
+      {/* Blue rounded card */}
+      <div className="w-full max-w-[1600px] mx-auto bg-[#1e4bff] rounded-[2rem] md:rounded-[3rem] pt-20 md:pt-32 pb-32 md:pb-44 px-4 md:px-12 relative overflow-hidden">
         {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1e4bff] via-[#1e4bff] to-[#1a42e6] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1e4bff] via-[#1e4bff] to-[#1a42e6] pointer-events-none rounded-[inherit]" />
         {/* Decorative blobs */}
         <div className="absolute top-10 -left-20 w-[400px] h-[400px] rounded-full bg-white/[0.03] blur-[100px] pointer-events-none" />
         <div className="absolute bottom-10 -right-20 w-[300px] h-[300px] rounded-full bg-[#00c853]/[0.05] blur-[80px] pointer-events-none" />
@@ -911,11 +911,10 @@ function CTA() {
         </div>
       </div>
 
-      {/* Marquee rows at bottom — angled, overlapping the blue/white boundary */}
-      <div className="relative -mt-10 md:-mt-14 z-20 overflow-hidden">
-        <div className="-rotate-[3deg] scale-x-[1.1] origin-center">
-          <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE']} className="text-[clamp(1.5rem,4vw,3rem)] font-black text-[#0b0b0b] tracking-tight mb-2" />
-          <Marquee items={['DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦', 'DESIGN']} reverse className="text-[clamp(1.5rem,4vw,3rem)] font-black text-[#0b0b0b]/10 tracking-tight" />
+      {/* Single angled marquee overlapping the bottom of the card */}
+      <div className="relative -mt-8 md:-mt-12 z-20 overflow-hidden max-w-[1600px] mx-auto">
+        <div className="-rotate-[3deg] scale-x-[1.15] origin-center">
+          <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦']} className="text-[clamp(1.8rem,5vw,3.5rem)] font-black text-[#0b0b0b] tracking-tight" />
         </div>
       </div>
     </section>
@@ -931,18 +930,19 @@ function Footer() {
   ]
 
   return (
-    <footer className="w-full bg-[#0b0b0b] pt-16 md:pt-24 pb-8 px-4 md:px-12">
-      <div className="max-w-[1600px] mx-auto">
-        {/* Top: Brand + Email */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 mb-16 md:mb-20">
+    <footer className="w-full bg-[#fafafa] pt-12 md:pt-16 pb-8 px-3 md:px-8">
+      {/* Rounded card container */}
+      <div className="max-w-[1600px] mx-auto bg-white rounded-[2rem] md:rounded-[3rem] border border-[#e8e8e8] p-6 md:p-12 lg:p-16">
+        {/* Top: Contacts + Email */}
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-12 md:mb-16">
           <div>
-            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#444] mb-4 block">Contacts</span>
-            <a href="mailto:hello@supernetrix.com" data-hover className="text-white text-xl md:text-2xl font-semibold hover:text-[#00c853] transition-colors">hello@supernetrix.com</a>
+            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#999] mb-3 block">Contacts</span>
+            <a href="mailto:hello@supernetrix.com" data-hover className="text-[#0b0b0b] text-xl md:text-3xl font-bold hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>hello@supernetrix.com</a>
           </div>
           <div className="flex items-center gap-3">
             {socials.map((s, i) => (
               <a key={i} href={s.href} target="_blank" rel="noopener" data-hover
-                className="w-11 h-11 rounded-full bg-[#1a1a1a] flex items-center justify-center text-[#888] hover:text-white hover:bg-[#00c853] transition-all duration-300">
+                className="w-11 h-11 rounded-full bg-[#f0f0f0] flex items-center justify-center text-[#888] hover:text-white hover:bg-[#00c853] transition-all duration-300">
                 {s.icon}
               </a>
             ))}
@@ -950,55 +950,55 @@ function Footer() {
         </div>
 
         {/* Main grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-6 mb-16 md:mb-20">
-          {/* Col 1: About */}
-          <div className="col-span-2 sm:col-span-3 lg:col-span-2">
-            <span className="text-xs text-[#444] block mb-3">Designed & Developed By</span>
-            <h3 className="text-3xl md:text-4xl font-black text-white mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>SuperNetrix</h3>
-            <p className="text-[#555] text-sm leading-relaxed max-w-sm">Strategic Technology Partner crafting high-impact digital experiences for startups and enterprises.</p>
-            <p className="text-[#333] text-xs mt-4">Based globally. Building remotely.</p>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-6 mb-12 md:mb-16">
+          {/* Col 1: About card */}
+          <div className="lg:col-span-2 bg-[#f8f8f8] rounded-2xl p-6 md:p-8">
+            <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#00c853] block mb-3">Designed & Developed By</span>
+            <h3 className="text-2xl md:text-3xl font-black text-[#0b0b0b] mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>SuperNetrix</h3>
+            <p className="text-[#777] text-sm leading-relaxed max-w-sm">Strategic Technology Partner crafting high-impact digital experiences for startups and enterprises.</p>
+            <p className="text-[#aaa] text-xs mt-4">Based globally. Building remotely.</p>
           </div>
 
           {/* Col 2: Quick Links */}
           <div>
-            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#444] mb-5 block">Quick Links</span>
+            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#999] mb-5 block">Quick Links</span>
             <nav className="flex flex-col gap-3">
               {[['Home', '#'], ['About', '#about'], ['Services', '#services'], ['Case Studies', '#work'], ['Contact', '#contact']].map(([label, href]) => (
-                <a key={label} href={href} data-hover className="footer-link text-sm text-[#666] inline-block w-fit">{label}</a>
+                <a key={label} href={href} data-hover className="text-sm font-medium text-[#444] hover:text-[#00c853] transition-colors inline-block w-fit">{label}</a>
               ))}
             </nav>
           </div>
 
           {/* Col 3: Legal */}
           <div>
-            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#444] mb-5 block">Legal</span>
+            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#999] mb-5 block">Legal</span>
             <nav className="flex flex-col gap-3">
               {['Privacy Policy', 'Terms & Conditions', 'Code of Conduct'].map(label => (
-                <a key={label} href="#" data-hover className="footer-link text-sm text-[#666] inline-block w-fit">{label}</a>
+                <a key={label} href="#" data-hover className="text-sm font-medium text-[#444] hover:text-[#00c853] transition-colors inline-block w-fit">{label}</a>
               ))}
             </nav>
           </div>
 
           {/* Col 4: Inquiries */}
           <div>
-            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#444] mb-5 block">Inquiries</span>
+            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#999] mb-5 block">Inquiries</span>
             <div className="space-y-5">
               <div>
-                <span className="text-xs text-[#444] block mb-1">General</span>
-                <a href="mailto:hello@supernetrix.com" data-hover className="footer-link text-sm text-[#666] inline-block w-fit">hello@supernetrix.com</a>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#bbb] block mb-1">General</span>
+                <a href="mailto:hello@supernetrix.com" data-hover className="text-sm font-medium text-[#444] hover:text-[#00c853] transition-colors inline-block w-fit">hello@supernetrix.com</a>
               </div>
               <div>
-                <span className="text-xs text-[#444] block mb-1">Projects</span>
-                <a href="mailto:projects@supernetrix.com" data-hover className="footer-link text-sm text-[#666] inline-block w-fit">projects@supernetrix.com</a>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#bbb] block mb-1">Projects</span>
+                <a href="mailto:projects@supernetrix.com" data-hover className="text-sm font-medium text-[#444] hover:text-[#00c853] transition-colors inline-block w-fit">projects@supernetrix.com</a>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-[#1a1a1a] pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-[#444]">&copy; 2026 SuperNetrix. All Rights Reserved.</p>
-          <a href="#" data-hover className="text-xs text-[#444] hover:text-[#00c853] transition-colors">Back to Top ↑</a>
+        <div className="border-t border-[#eee] pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-[#aaa]">&copy; 2026 SuperNetrix. All Rights Reserved.</p>
+          <a href="#" data-hover className="text-xs text-[#aaa] hover:text-[#00c853] transition-colors">Back to Top ↑</a>
         </div>
       </div>
     </footer>
