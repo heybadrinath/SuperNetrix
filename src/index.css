@@ -288,3 +288,50 @@ body {
 }
 .footer-link:hover::after { width: 100%; }
 .footer-link:hover { color: #fff; }
+
+/* ─── REVEAL RIGHT ─────────────────────────── */
+.reveal-right {
+  opacity: 0; transform: translateX(40px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+/* ─── PROCESS PULSE ────────────────────────── */
+@keyframes process-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.5); }
+  50% { box-shadow: 0 0 0 12px rgba(0, 200, 83, 0); }
+}
+.process-pulse { animation: process-pulse 2s ease-in-out infinite; }
+
+/* ─── TECH GLOW CYCLE ──────────────────────── */
+@keyframes tech-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,200,83,0); border-color: #e5e5e5; }
+  50% { box-shadow: 0 0 20px 2px rgba(0,200,83,0.15); border-color: #00c853; }
+}
+.tech-glow-active {
+  animation: tech-glow 1.2s ease-in-out;
+}
+
+/* ─── SHIMMER (dark cards hover) ───────────── */
+@keyframes shimmer-slide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.shimmer-hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(0,200,83,0.06) 50%, transparent 60%);
+  transform: translateX(-100%);
+  pointer-events: none;
+  z-index: 1;
+}
+.shimmer-hover:hover::after {
+  animation: shimmer-slide 1s ease-in-out;
+}
+
+/* ─── TESTIMONIAL FADE EDGES ───────────────── */
+.fade-edges {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+}

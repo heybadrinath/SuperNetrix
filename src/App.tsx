@@ -462,21 +462,39 @@ const techIcons: Record<string, JSX.Element> = {
   MongoDB: <svg viewBox="0 0 256 256" className="w-full h-full"><path d="M128 24c-12 40-48 68-48 108 0 44 24 76 48 100 24-24 48-56 48-100 0-40-36-68-48-108z" fill="currentColor" opacity="0.12" stroke="currentColor" strokeWidth="6"/><line x1="128" y1="60" x2="128" y2="220" stroke="currentColor" strokeWidth="4" strokeDasharray="8 6"/></svg>,
   Docker: <svg viewBox="0 0 256 256" className="w-full h-full"><rect x="48" y="100" width="160" height="96" rx="12" fill="none" stroke="currentColor" strokeWidth="7"/>{[0,1,2,3,4].map(i=><rect key={i} x={56+i*30} y={108} width={24} height={20} rx={3} fill="currentColor" opacity={0.2} stroke="currentColor" strokeWidth={2}/>)}{[0,1,2].map(i=><rect key={i+5} x={86+i*30} y={80} width={24} height={20} rx={3} fill="currentColor" opacity={0.15} stroke="currentColor" strokeWidth={2}/>)}<path d="M28 148c-8-4-12-12-8-20" stroke="currentColor" strokeWidth="5" strokeLinecap="round" fill="none"/></svg>,
   PostgreSQL: <svg viewBox="0 0 256 256" className="w-full h-full"><ellipse cx="128" cy="80" rx="72" ry="40" fill="none" stroke="currentColor" strokeWidth="7"/><path d="M56 80v96c0 22 32 40 72 40s72-18 72-40V80" fill="none" stroke="currentColor" strokeWidth="7"/><path d="M56 128c0 22 32 40 72 40s72-18 72-40" fill="none" stroke="currentColor" strokeWidth="5" opacity="0.4"/></svg>,
+  Redis: <svg viewBox="0 0 256 256" className="w-full h-full"><path d="M128 40l88 44v84l-88 44-88-44V84z" fill="currentColor" opacity="0.1" stroke="currentColor" strokeWidth="6"/><circle cx="128" cy="128" r="28" fill="none" stroke="currentColor" strokeWidth="6"/><path d="M128 100v-30M128 156v30M100 128h-30M156 128h30" stroke="currentColor" strokeWidth="5" strokeLinecap="round"/></svg>,
+  'Tailwind CSS': <svg viewBox="0 0 256 256" className="w-full h-full"><path d="M64 128q16-48 64-48 72 0 32 48-16 48-64 48-72 0-32-48z" fill="none" stroke="currentColor" strokeWidth="7" strokeLinejoin="round"/><path d="M96 128q16-48 64-48" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round"/></svg>,
+  Kubernetes: <svg viewBox="0 0 256 256" className="w-full h-full"><circle cx="128" cy="128" r="100" fill="none" stroke="currentColor" strokeWidth="6"/><path d="M128 28v200M28 128h200M52 52l152 152M204 52L52 204" stroke="currentColor" strokeWidth="3" opacity="0.2"/><circle cx="128" cy="128" r="36" fill="none" stroke="currentColor" strokeWidth="6"/><circle cx="128" cy="128" r="8" fill="currentColor"/></svg>,
+  GraphQL: <svg viewBox="0 0 256 256" className="w-full h-full"><polygon points="128,32 220,84 220,172 128,224 36,172 36,84" fill="none" stroke="currentColor" strokeWidth="6"/><circle cx="128" cy="32" r="12" fill="currentColor"/><circle cx="220" cy="84" r="12" fill="currentColor"/><circle cx="220" cy="172" r="12" fill="currentColor"/><circle cx="128" cy="224" r="12" fill="currentColor"/><circle cx="36" cy="172" r="12" fill="currentColor"/><circle cx="36" cy="84" r="12" fill="currentColor"/></svg>,
 }
 
 /* ═══════════════════════ TECH STACK ═══════════════════════ */
 function TechStack() {
   const [hovered, setHovered] = useState<number | null>(null)
+  const [activeIdx, setActiveIdx] = useState(0)
   const techs = [
-    { name: 'React', color: '#61dafb', desc: 'UI Library' },
-    { name: 'Node.js', color: '#339933', desc: 'Runtime' },
-    { name: 'Next.js', color: '#0b0b0b', desc: 'Framework' },
-    { name: 'TypeScript', color: '#3178c6', desc: 'Language' },
-    { name: 'AWS', color: '#ff9900', desc: 'Cloud Infra' },
-    { name: 'MongoDB', color: '#47a248', desc: 'NoSQL DB' },
-    { name: 'Docker', color: '#2496ed', desc: 'Containers' },
-    { name: 'PostgreSQL', color: '#336791', desc: 'SQL DB' },
+    { name: 'React', color: '#61dafb', desc: 'UI Library', tag: 'Frontend' },
+    { name: 'Node.js', color: '#339933', desc: 'Runtime', tag: 'Backend' },
+    { name: 'Next.js', color: '#0b0b0b', desc: 'Framework', tag: 'Full-Stack' },
+    { name: 'TypeScript', color: '#3178c6', desc: 'Language', tag: 'Type-Safe' },
+    { name: 'AWS', color: '#ff9900', desc: 'Cloud Infra', tag: 'Cloud' },
+    { name: 'MongoDB', color: '#47a248', desc: 'NoSQL DB', tag: 'Database' },
+    { name: 'Docker', color: '#2496ed', desc: 'Containers', tag: 'DevOps' },
+    { name: 'PostgreSQL', color: '#336791', desc: 'SQL DB', tag: 'Database' },
+    { name: 'Redis', color: '#dc382d', desc: 'In-Memory', tag: 'Caching' },
+    { name: 'Tailwind CSS', color: '#06b6d4', desc: 'Utility CSS', tag: 'Styling' },
+    { name: 'Kubernetes', color: '#326ce5', desc: 'Orchestration', tag: 'DevOps' },
+    { name: 'GraphQL', color: '#e10098', desc: 'Query Lang', tag: 'API' },
   ]
+
+  // Auto-rotate highlight every 2s
+  useEffect(() => {
+    if (hovered !== null) return
+    const interval = setInterval(() => {
+      setActiveIdx(prev => (prev + 1) % techs.length)
+    }, 2000)
+    return () => clearInterval(interval)
+  }, [hovered, techs.length])
 
   return (
     <section className="max-w-[1600px] mx-auto px-4 md:px-12 py-20 md:py-28 bg-white relative overflow-hidden">
@@ -487,34 +505,35 @@ function TechStack() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5 md:gap-5">
         {techs.map((t, i) => {
           const ref = useReveal('reveal-scale', 0.05)
-          const isActive = hovered === i
+          const isHovered = hovered === i
+          const isAutoActive = hovered === null && activeIdx === i
           return (
             <div key={i} ref={ref} data-hover
               onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)}
-              className="group relative rounded-2xl md:rounded-3xl border border-[#e5e5e5] bg-white p-5 md:p-8 flex flex-col items-center text-center transition-all duration-500 hover:border-transparent hover:shadow-[0_20px_60px_rgba(0,0,0,0.1)] overflow-hidden">
+              className={`group relative rounded-xl md:rounded-2xl border bg-white p-3 md:p-6 flex flex-col items-center text-center transition-all duration-500 overflow-hidden ${isAutoActive ? 'border-[#00c853] shadow-[0_0_20px_2px_rgba(0,200,83,0.12)]' : 'border-[#e5e5e5]'} hover:border-transparent hover:shadow-[0_20px_60px_rgba(0,0,0,0.1)]`}>
 
               {/* Colored glow background on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: `radial-gradient(circle at 50% 40%, ${t.color}15, transparent 70%)` }} />
-
-              {/* Floating ring decoration */}
-              <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full border opacity-0 group-hover:opacity-20 transition-all duration-700 group-hover:scale-110" style={{ borderColor: t.color }} />
+              <div className={`absolute inset-0 transition-opacity duration-700 pointer-events-none ${isHovered || isAutoActive ? 'opacity-100' : 'opacity-0'}`} style={{ background: `radial-gradient(circle at 50% 40%, ${t.color}15, transparent 70%)` }} />
 
               {/* Icon */}
-              <div className={`relative z-10 w-14 h-14 md:w-20 md:h-20 mb-4 md:mb-5 transition-all duration-500 ${isActive ? 'scale-110' : ''}`} style={{ color: t.color }}>
+              <div className={`relative z-10 w-10 h-10 md:w-16 md:h-16 mb-2 md:mb-4 transition-all duration-500 ${isHovered || isAutoActive ? 'scale-110' : ''}`} style={{ color: t.color }}>
                 {techIcons[t.name]}
               </div>
 
               {/* Name */}
-              <h3 className="relative z-10 text-base md:text-lg font-bold text-[#0b0b0b] mb-1 transition-colors duration-300 group-hover:text-[#0b0b0b]" style={{ fontFamily: 'Space Grotesk' }}>{t.name}</h3>
+              <h3 className="relative z-10 text-xs md:text-base font-bold text-[#0b0b0b] mb-0.5 transition-colors duration-300" style={{ fontFamily: 'Space Grotesk' }}>{t.name}</h3>
 
-              {/* Desc - slides up on hover */}
-              <span className="relative z-10 text-[11px] md:text-xs font-semibold uppercase tracking-widest transition-all duration-500 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0" style={{ color: t.color }}>{t.desc}</span>
+              {/* Tag */}
+              <span className="relative z-10 text-[9px] md:text-[11px] font-semibold text-[#aaa] uppercase tracking-wider">{t.tag}</span>
+
+              {/* Desc - visible on hover/active */}
+              <span className={`relative z-10 text-[9px] md:text-[11px] font-semibold uppercase tracking-widest mt-1 transition-all duration-500 ${isHovered || isAutoActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`} style={{ color: t.color }}>{t.desc}</span>
 
               {/* Bottom accent bar */}
-              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 group-hover:w-2/3 transition-all duration-500 rounded-full" style={{ background: t.color }} />
+              <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] md:h-[3px] transition-all duration-500 rounded-full ${isHovered || isAutoActive ? 'w-2/3' : 'w-0'}`} style={{ background: t.color }} />
             </div>
           )
         })}
@@ -589,8 +608,8 @@ function Services() {
         <h2 className="text-[clamp(3.5rem,12vw,11rem)] font-black tracking-[-0.04em] leading-[0.85] italic text-[#00c853] -mt-1 md:-mt-3 relative z-10" style={{ fontFamily: 'Plus Jakarta Sans' }}>
           services
         </h2>
-        {/* Ghost outline text behind */}
-        <div className="absolute top-0 left-[5%] md:left-[10%] text-[clamp(4rem,14vw,13rem)] font-black tracking-[-0.04em] leading-[0.85] text-transparent pointer-events-none select-none z-0" style={{ fontFamily: 'Plus Jakarta Sans', WebkitTextStroke: '1px rgba(0,0,0,0.04)' }}>
+        {/* Ghost outline text behind — hidden on mobile */}
+        <div className="hidden md:block absolute top-0 left-[8%] text-[clamp(4rem,14vw,13rem)] font-black tracking-[-0.04em] leading-[0.85] text-transparent pointer-events-none select-none z-0" style={{ fontFamily: 'Plus Jakarta Sans', WebkitTextStroke: '1px rgba(0,0,0,0.04)' }}>
           services
         </div>
       </div>
@@ -647,7 +666,7 @@ function Services() {
         {/* Card 3: AI Agents - span 4, blue bg */}
         <div data-hover className="bento-card md:col-span-4 rounded-[1.5rem] md:rounded-[2rem] bg-[#1e4bff] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[340px] md:min-h-[500px] relative overflow-hidden" ref={useReveal('reveal-scale', 0.05)}>
           {/* Decorative watermark */}
-          <div className="absolute top-8 right-4 md:right-8 text-[120px] md:text-[180px] font-black leading-none text-white/[0.04] pointer-events-none select-none" style={{ fontFamily: 'Space Grotesk' }}>AI</div>
+          <div className="absolute top-8 right-4 md:right-8 text-[120px] md:text-[180px] font-black leading-none text-white/[0.08] pointer-events-none select-none" style={{ fontFamily: 'Space Grotesk' }}>AI</div>
           <div className="relative z-10">
             <span className="text-[11px] font-bold text-white/50 uppercase tracking-widest block mb-4 md:mb-6">#GenerativeAI</span>
             <h3 className="text-[clamp(2.5rem,6vw,4.5rem)] font-black text-white leading-[0.95] mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>AI<br/>Agents</h3>
@@ -664,9 +683,13 @@ function Services() {
           </div>
         </div>
 
-        {/* Row 2: UI/UX Design - span 6, dark bg */}
-        <div data-hover className="bento-card md:col-span-6 rounded-[1.5rem] md:rounded-[2rem] bg-[#0b0b0b] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[220px] md:min-h-[280px] relative overflow-hidden" ref={useReveal('reveal-scale', 0.05)}>
+        {/* Row 2: UI/UX Design - span 6, dark bg + shimmer */}
+        <div data-hover className="bento-card shimmer-hover md:col-span-6 rounded-[1.5rem] md:rounded-[2rem] bg-[#0b0b0b] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[220px] md:min-h-[280px] relative overflow-hidden" ref={useReveal('reveal-scale', 0.05)}>
           <div className="absolute -right-4 -top-4 w-32 h-32 rounded-full bg-[#00c853]/5 blur-2xl group-hover:bg-[#00c853]/10 transition-all duration-700 pointer-events-none" />
+          {/* Pen tool icon */}
+          <div className="absolute top-6 right-6 md:top-8 md:right-10 w-12 h-12 md:w-16 md:h-16 text-[#333] group-hover:text-[#00c853]/40 transition-colors duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full"><path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" /></svg>
+          </div>
           <div className="relative z-10">
             <h3 className="text-2xl md:text-4xl font-black text-white mb-2 group-hover:text-[#00c853] transition-colors duration-500" style={{ fontFamily: 'Plus Jakarta Sans' }}>UI/UX Design</h3>
             <p className="text-[#555] text-sm">Award-winning interfaces</p>
@@ -674,9 +697,13 @@ function Services() {
           <p className="text-[#444] text-sm leading-relaxed mt-4 max-w-md relative z-10">User-centric design that drives engagement and conversion. We build experiences, not just screens.</p>
         </div>
 
-        {/* Product Strategy - span 6, dark bg */}
-        <div data-hover className="bento-card md:col-span-6 rounded-[1.5rem] md:rounded-[2rem] bg-[#0b0b0b] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[220px] md:min-h-[280px] relative overflow-hidden" ref={useReveal('reveal-scale', 0.05)}>
+        {/* Product Strategy - span 6, dark bg + shimmer */}
+        <div data-hover className="bento-card shimmer-hover md:col-span-6 rounded-[1.5rem] md:rounded-[2rem] bg-[#0b0b0b] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[220px] md:min-h-[280px] relative overflow-hidden" ref={useReveal('reveal-scale', 0.05)}>
           <div className="absolute -left-4 -bottom-4 w-32 h-32 rounded-full bg-[#00c853]/5 blur-2xl group-hover:bg-[#00c853]/10 transition-all duration-700 pointer-events-none" />
+          {/* Chart/target icon */}
+          <div className="absolute top-6 right-6 md:top-8 md:right-10 w-12 h-12 md:w-16 md:h-16 text-[#333] group-hover:text-[#00c853]/40 transition-colors duration-500">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v-5.5m3 5.5v-3.5m3 3.5v-1.5" /></svg>
+          </div>
           <div className="relative z-10">
             <h3 className="text-2xl md:text-4xl font-black text-white mb-2 group-hover:text-[#00c853] transition-colors duration-500" style={{ fontFamily: 'Plus Jakarta Sans' }}>Product Strategy</h3>
             <p className="text-[#555] text-sm">From MVP to Scale</p>
@@ -703,24 +730,56 @@ function Process() {
         <h2 className="text-[clamp(1.75rem,4vw,3rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>Our <span className="italic text-[#00c853]">Process</span></h2>
       </div>
 
-      {/* Horizontal steps */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
+      {/* Vertical timeline */}
+      <div className="relative max-w-4xl mx-auto">
+        {/* Center line (desktop) */}
+        <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#00c853]/20 via-[#00c853]/40 to-[#00c853]/20 -translate-x-1/2" />
+
         {steps.map((s, i) => {
-          const ref = useReveal('reveal-up', 0.1)
+          const isEven = i % 2 === 0
+          const ref = useReveal(isEven ? 'reveal-left' : 'reveal-right', 0.15)
           return (
-            <div key={i} ref={ref} data-hover className="group relative p-6 rounded-2xl border border-[#e5e5e5] hover:border-[#00c853] transition-all duration-500 hover:bg-[#fafafa] text-center md:text-left">
-              {/* Step number */}
-              <div className="w-10 h-10 rounded-full border-2 border-[#e5e5e5] group-hover:border-[#00c853] group-hover:bg-[#00c853] flex items-center justify-center mb-4 mx-auto md:mx-0 transition-all duration-500">
-                <span className="text-xs font-bold text-[#888] group-hover:text-white transition-colors">{s.n}</span>
+            <div key={i} className="relative md:flex items-center mb-8 md:mb-12 last:mb-0">
+              {/* Desktop: alternating sides */}
+              {/* Left content (odd steps on desktop) */}
+              <div className={`hidden md:block w-[calc(50%-32px)] ${isEven ? '' : 'order-2 ml-auto'}`}>
+                {isEven && (
+                  <div ref={ref} data-hover className="group p-6 md:p-8 rounded-2xl border border-[#e5e5e5] hover:border-[#00c853] transition-all duration-500 hover:bg-[#fafafa] text-right">
+                    <span className="text-5xl md:text-6xl font-black text-[#f0f0f0] group-hover:text-[#00c853]/15 transition-colors duration-500 block mb-2" style={{ fontFamily: 'Space Grotesk' }}>{s.n}</span>
+                    <h3 className="text-xl md:text-2xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>{s.t}</h3>
+                    <p className="text-sm text-[#888] leading-relaxed">{s.d}</p>
+                  </div>
+                )}
               </div>
-              <h3 className="text-lg font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>{s.t}</h3>
-              <p className="text-sm text-[#888] leading-relaxed">{s.d}</p>
-              {/* Connector arrow (desktop) */}
-              {i < steps.length - 1 && (
-                <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 text-[#ddd] group-hover:text-[#00c853] transition-colors z-10">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" /></svg>
+
+              {/* Center dot (desktop) */}
+              <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full border-2 border-[#00c853] bg-white items-center justify-center z-10 process-pulse">
+                <span className="text-[10px] font-bold text-[#00c853]" style={{ fontFamily: 'Space Grotesk' }}>{s.n}</span>
+              </div>
+
+              {/* Right content (even steps on desktop) */}
+              <div className={`hidden md:block w-[calc(50%-32px)] ${isEven ? 'order-2 ml-auto' : ''}`}>
+                {!isEven && (
+                  <div ref={ref} data-hover className="group p-6 md:p-8 rounded-2xl border border-[#e5e5e5] hover:border-[#00c853] transition-all duration-500 hover:bg-[#fafafa]">
+                    <span className="text-5xl md:text-6xl font-black text-[#f0f0f0] group-hover:text-[#00c853]/15 transition-colors duration-500 block mb-2" style={{ fontFamily: 'Space Grotesk' }}>{s.n}</span>
+                    <h3 className="text-xl md:text-2xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>{s.t}</h3>
+                    <p className="text-sm text-[#888] leading-relaxed">{s.d}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile: full-width stacked cards */}
+              <div className="md:hidden" ref={useReveal(isEven ? 'reveal-left' : 'reveal-right', 0.15)}>
+                <div data-hover className="group flex items-start gap-4 p-5 rounded-2xl border border-[#e5e5e5] hover:border-[#00c853] transition-all duration-500">
+                  <div className="w-10 h-10 rounded-full border-2 border-[#00c853] bg-white flex items-center justify-center shrink-0 process-pulse">
+                    <span className="text-[10px] font-bold text-[#00c853]" style={{ fontFamily: 'Space Grotesk' }}>{s.n}</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-[#0b0b0b] mb-1 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>{s.t}</h3>
+                    <p className="text-sm text-[#888] leading-relaxed">{s.d}</p>
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
           )
         })}
@@ -741,8 +800,10 @@ function Testimonials() {
 
   return (
     <section className="w-full py-16 md:py-24 bg-[#fafafa] border-y border-[#e5e5e5] overflow-hidden">
-      <div className="max-w-[1600px] mx-auto px-4 md:px-12 mb-8 md:mb-12">
-        <div className="reveal-up" ref={useReveal()}>
+      <div className="max-w-[1600px] mx-auto px-4 md:px-12 mb-8 md:mb-12 relative">
+        {/* Decorative large quote mark */}
+        <div className="absolute -top-4 -left-2 md:left-6 text-[100px] md:text-[180px] font-black leading-none text-[#00c853]/[0.06] pointer-events-none select-none" style={{ fontFamily: 'Georgia, serif' }}>&ldquo;</div>
+        <div className="reveal-up relative z-10" ref={useReveal()}>
           <h2 className="text-[clamp(1.75rem,4vw,3rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>
             Trusted by <span className="italic text-[#00c853]">Clients</span>
           </h2>
@@ -750,20 +811,20 @@ function Testimonials() {
         </div>
       </div>
 
-      {/* Auto-scrolling testimonial strip */}
-      <div className="overflow-hidden">
-        <div className="testimonial-scroll inline-flex gap-5 px-6">
+      {/* Auto-scrolling testimonial strip with fade edges */}
+      <div className="overflow-hidden fade-edges">
+        <div className="testimonial-scroll inline-flex gap-5 md:gap-8 px-6">
           {[...items, ...items].map((t, i) => (
-            <div key={i} data-hover className="flex-shrink-0 w-[280px] sm:w-[380px] md:w-[440px] rounded-2xl border border-[#e5e5e5] bg-white p-5 md:p-7 hover:border-[#00c853] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
+            <div key={i} data-hover className="flex-shrink-0 w-[280px] sm:w-[380px] md:w-[500px] rounded-2xl border border-[#e5e5e5] bg-white p-5 md:p-8 hover:border-[#00c853] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
               {/* Stars */}
               <div className="flex gap-1 mb-4">
                 {[...Array(5)].map((_, j) => <span key={j} className="text-[#00c853] text-sm">★</span>)}
               </div>
-              <p className="text-[#333] text-sm leading-relaxed mb-6">"{t.quote}"</p>
+              <p className="text-[#333] text-sm md:text-base leading-relaxed mb-6">"{t.quote}"</p>
               <div className="flex items-center gap-3 border-t border-[#f0f0f0] pt-4">
-                <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold" style={{ background: 'linear-gradient(135deg, #00c853, #00e676)' }}>{t.name.charAt(0)}</div>
+                <div className="w-9 h-9 md:w-11 md:h-11 rounded-full flex items-center justify-center text-white text-xs md:text-sm font-bold" style={{ background: 'linear-gradient(135deg, #00c853, #00e676)' }}>{t.name.charAt(0)}</div>
                 <div>
-                  <span className="text-sm font-bold text-[#0b0b0b] block leading-tight">{t.name}</span>
+                  <span className="text-sm md:text-base font-bold text-[#0b0b0b] block leading-tight">{t.name}</span>
                   <span className="text-xs text-[#888]">{t.role}</span>
                 </div>
               </div>
@@ -811,8 +872,8 @@ function FAQ() {
 function CTA() {
   return (
     <section id="contact" className="w-full relative overflow-hidden">
-      {/* Blue section */}
-      <div className="w-full bg-[#1e4bff] pt-20 md:pt-32 pb-32 md:pb-44 px-4 md:px-12 relative overflow-hidden">
+      {/* Blue section with curved bottom */}
+      <div className="w-full bg-[#1e4bff] pt-20 md:pt-32 pb-40 md:pb-52 px-4 md:px-12 relative overflow-hidden" style={{ borderRadius: '0 0 50% 50% / 0 0 60px 60px' }}>
         {/* Subtle gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#1e4bff] via-[#1e4bff] to-[#1a42e6] pointer-events-none" />
         {/* Decorative blobs */}
@@ -850,10 +911,12 @@ function CTA() {
         </div>
       </div>
 
-      {/* Marquee rows at bottom — overlapping the blue/white boundary */}
-      <div className="relative -mt-16 md:-mt-20 z-20 overflow-hidden">
-        <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE']} className="text-[clamp(1.5rem,4vw,3rem)] font-black text-[#0b0b0b] tracking-tight mb-2" />
-        <Marquee items={['DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦', 'DESIGN']} reverse className="text-[clamp(1.5rem,4vw,3rem)] font-black text-[#0b0b0b]/10 tracking-tight" />
+      {/* Marquee rows at bottom — angled, overlapping the blue/white boundary */}
+      <div className="relative -mt-10 md:-mt-14 z-20 overflow-hidden">
+        <div className="-rotate-[3deg] scale-x-[1.1] origin-center">
+          <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE']} className="text-[clamp(1.5rem,4vw,3rem)] font-black text-[#0b0b0b] tracking-tight mb-2" />
+          <Marquee items={['DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦', 'DESIGN']} reverse className="text-[clamp(1.5rem,4vw,3rem)] font-black text-[#0b0b0b]/10 tracking-tight" />
+        </div>
       </div>
     </section>
   )
