@@ -411,43 +411,69 @@ function Projects() {
   )
 }
 
-/* ═══════════════════════ TECH STACK (sujalbuild.in 4-col card grid) ═══════════════════════ */
+/* ═══════════════════════ TECH ICONS ═══════════════════════ */
+const techIcons: Record<string, JSX.Element> = {
+  React: <svg viewBox="0 0 256 228" className="w-full h-full"><circle cx="128" cy="114" r="20" fill="currentColor"/><g fill="none" stroke="currentColor" strokeWidth="8"><ellipse cx="128" cy="114" rx="100" ry="38"/><ellipse cx="128" cy="114" rx="100" ry="38" transform="rotate(60 128 114)"/><ellipse cx="128" cy="114" rx="100" ry="38" transform="rotate(120 128 114)"/></g></svg>,
+  'Node.js': <svg viewBox="0 0 256 292" className="w-full h-full"><path d="M128 0L256 73.9v146.2L128 292 0 220.1V73.9z" fill="currentColor" opacity="0.15"/><path d="M128 32l96 55.4v110.8L128 253.6 32 198.2V87.4z" fill="none" stroke="currentColor" strokeWidth="8"/><text x="128" y="160" textAnchor="middle" fill="currentColor" fontSize="80" fontFamily="Space Grotesk" fontWeight="700">N</text></svg>,
+  'Next.js': <svg viewBox="0 0 256 256" className="w-full h-full"><circle cx="128" cy="128" r="120" fill="none" stroke="currentColor" strokeWidth="8"/><path d="M106 88v80M106 88l80 100" stroke="currentColor" strokeWidth="10" strokeLinecap="round" fill="none"/><circle cx="168" cy="88" r="6" fill="currentColor"/></svg>,
+  TypeScript: <svg viewBox="0 0 256 256" className="w-full h-full"><rect x="8" y="8" width="240" height="240" rx="24" fill="currentColor" opacity="0.12"/><rect x="8" y="8" width="240" height="240" rx="24" fill="none" stroke="currentColor" strokeWidth="8"/><text x="128" y="170" textAnchor="middle" fill="currentColor" fontSize="120" fontFamily="Space Grotesk" fontWeight="800">TS</text></svg>,
+  AWS: <svg viewBox="0 0 256 256" className="w-full h-full"><path d="M44 160c28 28 72 40 112 28" stroke="currentColor" strokeWidth="10" strokeLinecap="round" fill="none"/><path d="M180 100c-8-36-44-60-80-52s-56 44-48 80" stroke="currentColor" strokeWidth="8" fill="none"/><path d="M160 188l32-12-12-32" stroke="currentColor" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>,
+  MongoDB: <svg viewBox="0 0 256 256" className="w-full h-full"><path d="M128 24c-12 40-48 68-48 108 0 44 24 76 48 100 24-24 48-56 48-100 0-40-36-68-48-108z" fill="currentColor" opacity="0.12" stroke="currentColor" strokeWidth="6"/><line x1="128" y1="60" x2="128" y2="220" stroke="currentColor" strokeWidth="4" strokeDasharray="8 6"/></svg>,
+  Docker: <svg viewBox="0 0 256 256" className="w-full h-full"><rect x="48" y="100" width="160" height="96" rx="12" fill="none" stroke="currentColor" strokeWidth="7"/>{[0,1,2,3,4].map(i=><rect key={i} x={56+i*30} y={108} width={24} height={20} rx={3} fill="currentColor" opacity={0.2} stroke="currentColor" strokeWidth={2}/>)}{[0,1,2].map(i=><rect key={i+5} x={86+i*30} y={80} width={24} height={20} rx={3} fill="currentColor" opacity={0.15} stroke="currentColor" strokeWidth={2}/>)}<path d="M28 148c-8-4-12-12-8-20" stroke="currentColor" strokeWidth="5" strokeLinecap="round" fill="none"/></svg>,
+  PostgreSQL: <svg viewBox="0 0 256 256" className="w-full h-full"><ellipse cx="128" cy="80" rx="72" ry="40" fill="none" stroke="currentColor" strokeWidth="7"/><path d="M56 80v96c0 22 32 40 72 40s72-18 72-40V80" fill="none" stroke="currentColor" strokeWidth="7"/><path d="M56 128c0 22 32 40 72 40s72-18 72-40" fill="none" stroke="currentColor" strokeWidth="5" opacity="0.4"/></svg>,
+}
+
+/* ═══════════════════════ TECH STACK ═══════════════════════ */
 function TechStack() {
+  const [hovered, setHovered] = useState<number | null>(null)
   const techs = [
-    { name: 'React', abbr: 'Re', color: '#61dafb' },
-    { name: 'Node.js', abbr: 'Nd', color: '#339933' },
-    { name: 'Next.js', abbr: 'Nx', color: '#0b0b0b' },
-    { name: 'TypeScript', abbr: 'Ts', color: '#3178c6' },
-    { name: 'AWS', abbr: 'Aw', color: '#ff9900' },
-    { name: 'MongoDB', abbr: 'Mg', color: '#47a248' },
-    { name: 'Docker', abbr: 'Dk', color: '#2496ed' },
-    { name: 'PostgreSQL', abbr: 'Pg', color: '#336791' },
+    { name: 'React', color: '#61dafb', desc: 'UI Library' },
+    { name: 'Node.js', color: '#339933', desc: 'Runtime' },
+    { name: 'Next.js', color: '#0b0b0b', desc: 'Framework' },
+    { name: 'TypeScript', color: '#3178c6', desc: 'Language' },
+    { name: 'AWS', color: '#ff9900', desc: 'Cloud Infra' },
+    { name: 'MongoDB', color: '#47a248', desc: 'NoSQL DB' },
+    { name: 'Docker', color: '#2496ed', desc: 'Containers' },
+    { name: 'PostgreSQL', color: '#336791', desc: 'SQL DB' },
   ]
 
   return (
     <section className="max-w-[1600px] mx-auto px-4 md:px-12 py-20 md:py-28 bg-white relative overflow-hidden">
       <div className="reveal-up mb-10 md:mb-16" ref={useReveal()}>
+        <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#888] block mb-3">Our Stack</span>
         <h2 className="text-[clamp(1.75rem,4vw,3rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>
           Technology <span className="italic text-[#00c853]">We Work</span> with.
         </h2>
       </div>
 
-      {/* 4-col grid with large tech cards like sujalbuild.in */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-[1px] bg-[#e8e8ea] border border-[#e8e8ea]">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-6">
         {techs.map((t, i) => {
           const ref = useReveal('reveal-scale', 0.05)
-          const isEven = (Math.floor(i / 4) + i % 4) % 2 === 0
+          const isActive = hovered === i
           return (
-            <div key={i} ref={ref} data-hover className={`group flex flex-col items-center justify-center py-8 md:py-14 px-4 md:px-6 transition-all duration-500 hover:scale-[1.02] relative overflow-hidden ${isEven ? 'bg-[#f5f5f7]' : 'bg-white'}`}>
-              {/* Large abbreviation as background watermark */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <span className="text-[100px] md:text-[140px] font-black leading-none opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500 select-none" style={{ fontFamily: 'Space Grotesk', color: t.color }}>{t.abbr}</span>
+            <div key={i} ref={ref} data-hover
+              onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)}
+              className="group relative rounded-2xl md:rounded-3xl border border-[#e5e5e5] bg-white p-5 md:p-8 flex flex-col items-center text-center transition-all duration-500 hover:border-transparent hover:shadow-[0_20px_60px_rgba(0,0,0,0.1)] overflow-hidden">
+
+              {/* Colored glow background on hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: `radial-gradient(circle at 50% 40%, ${t.color}15, transparent 70%)` }} />
+
+              {/* Floating ring decoration */}
+              <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full border opacity-0 group-hover:opacity-20 transition-all duration-700 group-hover:scale-110" style={{ borderColor: t.color }} />
+
+              {/* Icon */}
+              <div className={`relative z-10 w-14 h-14 md:w-20 md:h-20 mb-4 md:mb-5 transition-all duration-500 ${isActive ? 'scale-110' : ''}`} style={{ color: t.color }}>
+                {techIcons[t.name]}
               </div>
-              {/* Icon circle */}
-              <div className="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center text-2xl md:text-3xl font-bold mb-4 transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_10px_30px_rgba(0,0,0,0.1)]" style={{ background: t.color + '12', color: t.color, fontFamily: 'Space Grotesk' }}>
-                {t.abbr}
-              </div>
-              <span className="relative z-10 text-sm font-semibold text-[#666] group-hover:text-[#0b0b0b] transition-colors duration-300">{t.name}</span>
+
+              {/* Name */}
+              <h3 className="relative z-10 text-base md:text-lg font-bold text-[#0b0b0b] mb-1 transition-colors duration-300 group-hover:text-[#0b0b0b]" style={{ fontFamily: 'Space Grotesk' }}>{t.name}</h3>
+
+              {/* Desc - slides up on hover */}
+              <span className="relative z-10 text-[11px] md:text-xs font-semibold uppercase tracking-widest transition-all duration-500 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0" style={{ color: t.color }}>{t.desc}</span>
+
+              {/* Bottom accent bar */}
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] w-0 group-hover:w-2/3 transition-all duration-500 rounded-full" style={{ background: t.color }} />
             </div>
           )
         })}
