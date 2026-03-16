@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(gh auth:*)",
-      "Bash(vercel whoami:*)"
+      "Bash(vercel whoami:*)",
+      "Bash(gh repo:*)",
+      "Bash(vercel:*)"
     ]
   }
 }

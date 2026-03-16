@@ -4,3 +4,5 @@ dist
 *.local
 bundle.html
 supernetrix-landing.html
+
+.vercel
