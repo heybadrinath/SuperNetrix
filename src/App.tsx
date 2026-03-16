@@ -356,56 +356,97 @@ function TripleMarquee() {
 
 /* ═══════════════════════ PROJECTS ═══════════════════════ */
 function Projects() {
+  const [activeIdx, setActiveIdx] = useState(0)
+  const scrollRef = useRef<HTMLDivElement>(null)
   const projects = [
-    { name: 'VoiceGuard AI', cat: 'AI / Call Analytics', desc: 'Smart call monitoring platform processing thousands of calls daily, extracting insights that improve sales performance.', color: '#00c853', url: 'https://voiceguardai.co' },
-    { name: 'Cesari London', cat: 'Luxury E-Commerce', desc: 'Premium fashion e-commerce engineered for speed and conversion. A full digital storefront built for scale.', color: '#6366f1', url: 'https://cesarilondon.com' },
-    { name: 'Future Sportler', cat: 'Sports Platform', desc: 'Connecting athletes, coaches, and clubs. Real-time updates, massive concurrency, clean UX.', color: '#f59e0b', url: 'https://futuresportler.com' },
-    { name: 'Digital Twin', cat: 'Enterprise Data Viz', desc: 'Complex datasets turned into actionable visual intelligence for enterprise decision-makers.', color: '#8b5cf6', url: 'https://dtwin.evenbetter.in' },
-    { name: 'Graphite', cat: 'B2B Collaboration', desc: 'Real-time sync, role-based access, clean API integrations. Built for teams that move fast.', color: '#ec4899', url: 'https://graphite.io' },
+    { name: 'VoiceGuard AI', cat: 'AI / Call Analytics', desc: 'Smart call monitoring platform processing thousands of calls daily, extracting insights that improve sales performance. From zero to production in 8 weeks.', color: '#00c853', url: 'https://voiceguardai.co' },
+    { name: 'Cesari London', cat: 'Luxury E-Commerce', desc: 'Premium fashion e-commerce engineered for speed and conversion. A full digital storefront built for scale with immersive product experiences.', color: '#6366f1', url: 'https://cesarilondon.com' },
+    { name: 'Future Sportler', cat: 'Sports Platform', desc: 'Connecting athletes, coaches, and clubs. Real-time updates, massive concurrency, clean UX. Built to handle peak traffic.', color: '#f59e0b', url: 'https://futuresportler.com' },
+    { name: 'Digital Twin', cat: 'Enterprise Data Viz', desc: 'Complex datasets turned into actionable visual intelligence for enterprise decision-makers. Real-time dashboards at scale.', color: '#8b5cf6', url: 'https://dtwin.evenbetter.in' },
+    { name: 'Graphite', cat: 'B2B Collaboration', desc: 'Real-time sync, role-based access, clean API integrations. Built for teams that move fast. Reduced dev time by 60%.', color: '#ec4899', url: 'https://graphite.io' },
   ]
+
+  const scrollTo = useCallback((idx: number) => {
+    const el = scrollRef.current
+    if (!el) return
+    const card = el.children[idx] as HTMLElement
+    if (card) {
+      el.scrollTo({ left: card.offsetLeft - 16, behavior: 'smooth' })
+      setActiveIdx(idx)
+    }
+  }, [])
+
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return
+    const onScroll = () => {
+      const scrollLeft = el.scrollLeft
+      const cardWidth = (el.children[0] as HTMLElement)?.offsetWidth || 300
+      setActiveIdx(Math.round(scrollLeft / (cardWidth + 20)))
+    }
+    el.addEventListener('scroll', onScroll, { passive: true })
+    return () => el.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
     <section id="work" className="max-w-[1600px] mx-auto px-4 md:px-12 py-20 md:py-28 bg-white">
+      {/* Header with pagination */}
       <div className="flex items-end justify-between mb-10 md:mb-14">
         <div className="reveal-up" ref={useReveal()}>
           <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#888] block mb-3">Our Work</span>
           <h2 className="text-[clamp(1.75rem,4vw,3.5rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>Featured Projects</h2>
         </div>
+        <div className="reveal-up flex items-center gap-4" ref={useReveal()}>
+          <span className="text-sm font-bold text-[#0b0b0b]" style={{ fontFamily: 'Space Grotesk' }}>{activeIdx + 1}/{projects.length}</span>
+          <div className="flex gap-2">
+            <button onClick={() => scrollTo(Math.max(0, activeIdx - 1))} data-hover className="w-10 h-10 rounded-full border border-[#e5e5e5] flex items-center justify-center hover:border-[#0b0b0b] transition-colors">
+              <svg className="w-4 h-4 text-[#888]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+            </button>
+            <button onClick={() => scrollTo(Math.min(projects.length - 1, activeIdx + 1))} data-hover className="w-10 h-10 rounded-full border border-[#e5e5e5] flex items-center justify-center hover:border-[#0b0b0b] transition-colors">
+              <svg className="w-4 h-4 text-[#888]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Horizontal scroll project cards */}
-      <div className="flex gap-4 md:gap-6 overflow-x-auto pb-8 snap-x snap-mandatory -mx-2 px-2 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+      {/* Project cards — horizontal scroll */}
+      <div ref={scrollRef} className="flex gap-5 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
         {projects.map((p, i) => (
           <a key={i} href={p.url} target="_blank" rel="noopener" data-hover
-            className="tilt-card snap-start flex-shrink-0 w-[280px] sm:w-[340px] md:w-[420px] rounded-3xl border border-[#e5e5e5] overflow-hidden bg-white group hover:border-[#00c853] transition-all duration-500">
+            className="snap-start flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-[540px] lg:w-[600px] rounded-2xl md:rounded-3xl border border-[#e5e5e5] overflow-hidden bg-white group hover:border-[#00c853]/50 transition-all duration-500 hover:shadow-[0_30px_80px_rgba(0,0,0,0.08)]">
             {/* Visual header */}
-            <div className="relative h-[180px] sm:h-[220px] md:h-[260px] overflow-hidden" style={{ background: `linear-gradient(135deg, ${p.color}15, ${p.color}08)` }}>
-              {/* Large letter */}
+            <div className="relative h-[200px] sm:h-[260px] md:h-[320px] overflow-hidden" style={{ background: `linear-gradient(135deg, ${p.color}12, ${p.color}05)` }}>
+              {/* Large letter watermark */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-[120px] md:text-[160px] font-black leading-none opacity-[0.08] group-hover:opacity-[0.15] group-hover:scale-110 transition-all duration-700" style={{ color: p.color, fontFamily: 'Space Grotesk' }}>{p.name.charAt(0)}</span>
+                <span className="text-[140px] sm:text-[180px] md:text-[220px] font-black leading-none opacity-[0.06] group-hover:opacity-[0.12] group-hover:scale-105 transition-all duration-700 select-none" style={{ color: p.color, fontFamily: 'Space Grotesk' }}>{p.name.charAt(0)}</span>
               </div>
-              {/* Floating badge */}
-              <div className="absolute top-5 left-5 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-md" style={{ background: p.color + '20', color: p.color }}>{p.cat}</div>
+              {/* Category badge */}
+              <div className="absolute top-5 left-5 px-3.5 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider backdrop-blur-md" style={{ background: p.color + '18', color: p.color }}>{p.cat}</div>
               {/* Number */}
-              <div className="absolute bottom-5 right-5 text-[80px] font-black leading-none opacity-[0.04]" style={{ fontFamily: 'Space Grotesk' }}>{String(i + 1).padStart(2, '0')}</div>
-              {/* Arrow */}
-              <div className="absolute bottom-5 left-5 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+              <div className="absolute bottom-4 right-5 text-[70px] md:text-[90px] font-black leading-none opacity-[0.04] select-none" style={{ fontFamily: 'Space Grotesk' }}>{String(i + 1).padStart(2, '0')}</div>
+              {/* Arrow on hover */}
+              <div className="absolute bottom-5 left-5 w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 shadow-lg">
                 <svg className="w-4 h-4 text-[#0b0b0b] -rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" /></svg>
               </div>
             </div>
             {/* Info */}
-            <div className="p-6">
-              <h3 className="text-xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>{p.name}</h3>
+            <div className="p-5 md:p-7">
+              <h3 className="text-xl md:text-2xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>{p.name}</h3>
               <p className="text-sm text-[#666] leading-relaxed">{p.desc}</p>
+              <span className="inline-flex items-center gap-1.5 mt-4 text-xs font-semibold text-[#888] group-hover:text-[#00c853] transition-colors">
+                Read more
+                <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </span>
             </div>
           </a>
         ))}
       </div>
 
-      {/* Scroll hint */}
-      <div className="flex items-center gap-2 mt-4 text-xs text-[#ccc]">
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-        <span>Scroll to explore</span>
+      {/* Progress dots */}
+      <div className="flex items-center justify-center gap-2 mt-6">
+        {projects.map((_, i) => (
+          <button key={i} onClick={() => scrollTo(i)} className={`h-1.5 rounded-full transition-all duration-300 ${activeIdx === i ? 'w-8 bg-[#00c853]' : 'w-1.5 bg-[#ddd]'}`} />
+        ))}
       </div>
     </section>
   )
@@ -533,85 +574,114 @@ function Milestones() {
   )
 }
 
-/* ═══════════════════════ SERVICES (12-col bento grid - sujalbuild.in exact) ═══════════════════════ */
+/* ═══════════════════════ SERVICES ═══════════════════════ */
 function Services() {
   return (
-    <section id="services" className="max-w-[1600px] mx-auto px-4 md:px-12 py-20 md:py-28 bg-white">
-      <div className="reveal-up mb-10 md:mb-16" ref={useReveal()}>
-        <h2 className="text-[clamp(1.75rem,4vw,3.5rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>
-          OUR <span className="italic text-[#00c853]">services</span>
+    <section id="services" className="relative max-w-[1600px] mx-auto px-4 md:px-12 py-20 md:py-28 bg-white overflow-visible">
+      {/* Giant "out of place" heading — overflows the container */}
+      <div className="reveal-up mb-6" ref={useReveal()}>
+        <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#888] block mb-4">What We Do</span>
+      </div>
+      <div className="reveal-up relative mb-12 md:mb-20" ref={useReveal()}>
+        <h2 className="text-[clamp(3.5rem,12vw,11rem)] font-black tracking-[-0.04em] leading-[0.85] text-[#0b0b0b] relative z-10" style={{ fontFamily: 'Plus Jakarta Sans' }}>
+          OUR
         </h2>
+        <h2 className="text-[clamp(3.5rem,12vw,11rem)] font-black tracking-[-0.04em] leading-[0.85] italic text-[#00c853] -mt-1 md:-mt-3 relative z-10" style={{ fontFamily: 'Plus Jakarta Sans' }}>
+          services
+        </h2>
+        {/* Ghost outline text behind */}
+        <div className="absolute top-0 left-[5%] md:left-[10%] text-[clamp(4rem,14vw,13rem)] font-black tracking-[-0.04em] leading-[0.85] text-transparent pointer-events-none select-none z-0" style={{ fontFamily: 'Plus Jakarta Sans', WebkitTextStroke: '1px rgba(0,0,0,0.04)' }}>
+          services
+        </div>
       </div>
 
-      {/* 12-column bento grid matching sujalbuild.in exactly */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6" style={{ gridAutoRows: 'minmax(0, auto)' }}>
+      {/* Bento grid */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5" style={{ gridAutoRows: 'minmax(0, auto)' }}>
 
-        {/* Card 1: Mobile Apps - span 5, green bg, tall */}
-        <div data-hover className="bento-card md:col-span-5 rounded-[1.5rem] md:rounded-[2.5rem] bg-[#00c853] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[320px] md:min-h-[480px]" ref={useReveal('reveal-scale', 0.05)}>
-          <div>
-            <div className="flex items-center gap-2 mb-auto">
-              <svg className="w-6 h-6 text-[#0b0b0b]/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
-              <span className="text-sm font-semibold text-[#0b0b0b]/60">High Performance</span>
+        {/* Card 1: Mobile Apps - span 5, green bg */}
+        <div data-hover className="bento-card md:col-span-5 rounded-[1.5rem] md:rounded-[2rem] bg-[#00c853] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[340px] md:min-h-[500px]" ref={useReveal('reveal-scale', 0.05)}>
+          <div className="flex items-center justify-between">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0b0b0b] text-white">
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+              <span className="text-[11px] font-bold uppercase tracking-wider">High Performance</span>
+            </div>
+            <div className="w-10 h-10 rounded-xl bg-[#0b0b0b]/10 flex items-center justify-center">
+              <svg className="w-5 h-5 text-[#0b0b0b]/40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
             </div>
           </div>
           <div>
-            <h3 className="text-3xl md:text-5xl font-extrabold text-[#0b0b0b] leading-[1.05] mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>Mobile<br/>Apps</h3>
-            <p className="text-[#0b0b0b]/70 text-sm mb-4 md:mb-6">iOS & Android Solutions</p>
-            <div className="flex flex-wrap gap-2">
-              <span className="text-xs font-semibold px-4 py-2 rounded-full bg-[#0b0b0b]/10 text-[#0b0b0b]">Flutter</span>
-              <span className="text-xs font-semibold px-4 py-2 rounded-full bg-[#0b0b0b]/10 text-[#0b0b0b]">Cross-platform Mastery</span>
+            <h3 className="text-[clamp(2.5rem,6vw,4.5rem)] font-black text-[#0b0b0b] leading-[0.95] mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>Mobile<br/>Apps</h3>
+            <p className="text-[#0b0b0b]/50 text-sm italic mb-6">iOS & Android Solutions</p>
+            <div className="border-t border-[#0b0b0b]/15 pt-5 flex items-center justify-between">
+              <div>
+                <span className="text-base md:text-lg font-bold text-[#0b0b0b] block">Flutter</span>
+                <span className="text-[11px] font-semibold text-[#0b0b0b]/50 uppercase tracking-wider">Cross-Platform Mastery</span>
+              </div>
+              <div className="w-10 h-10 rounded-full border-2 border-[#0b0b0b]/20 flex items-center justify-center">
+                <svg className="w-5 h-5 text-[#0b0b0b]/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3" /></svg>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Card 2: SaaS + Web Apps stacked - span 3 */}
-        <div className="md:col-span-3 grid grid-cols-2 md:grid-cols-1 gap-4 md:gap-6">
-          <div data-hover className="bento-card flex-1 rounded-[1.5rem] md:rounded-[2.5rem] bg-white border border-[#e5e5e5] p-5 md:p-7 flex flex-col justify-between group reveal-scale" ref={useReveal('reveal-scale', 0.05)}>
-            <div>
-              <h3 className="text-xl md:text-2xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>SaaS</h3>
-              <p className="text-sm text-[#666]">Scalable Platforms</p>
+        <div className="md:col-span-3 grid grid-cols-2 md:grid-cols-1 gap-4 md:gap-5">
+          <div data-hover className="bento-card flex-1 rounded-[1.5rem] md:rounded-[2rem] bg-white border border-[#e5e5e5] p-5 md:p-7 flex flex-col items-center justify-center text-center group reveal-scale min-h-[180px] md:min-h-0" ref={useReveal('reveal-scale', 0.05)}>
+            <div className="w-12 h-12 rounded-xl bg-[#f0f0f0] flex items-center justify-center mb-4 group-hover:bg-[#00c853]/10 transition-colors duration-500">
+              <svg className="w-6 h-6 text-[#888] group-hover:text-[#00c853] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L12 12.75 6.429 9.75m11.142 0l4.179 2.25L12 17.25 2.25 12l4.179-2.25" /></svg>
             </div>
-            <svg className="w-5 h-5 text-[#ccc] group-hover:text-[#00c853] transition-colors mt-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" /></svg>
+            <h3 className="text-xl md:text-2xl font-bold text-[#0b0b0b] mb-1 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>SaaS</h3>
+            <p className="text-xs text-[#888]">Scalable Platforms</p>
+            <svg className="w-5 h-5 text-[#ddd] group-hover:text-[#00c853] transition-all duration-300 mt-3 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" /></svg>
           </div>
-          <div data-hover className="bento-card flex-1 rounded-[1.5rem] md:rounded-[2.5rem] bg-white border border-[#e5e5e5] p-5 md:p-7 flex flex-col justify-between group reveal-scale" ref={useReveal('reveal-scale', 0.05)}>
-            <div>
-              <h3 className="text-xl md:text-2xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>Web Apps</h3>
-              <p className="text-sm text-[#666]">Modern & Responsive</p>
+          <div data-hover className="bento-card flex-1 rounded-[1.5rem] md:rounded-[2rem] bg-white border border-[#e5e5e5] p-5 md:p-7 flex flex-col items-center justify-center text-center group reveal-scale min-h-[180px] md:min-h-0" ref={useReveal('reveal-scale', 0.05)}>
+            <div className="w-12 h-12 rounded-xl bg-[#f0f0f0] flex items-center justify-center mb-4 group-hover:bg-[#00c853]/10 transition-colors duration-500">
+              <svg className="w-6 h-6 text-[#888] group-hover:text-[#00c853] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5a17.92 17.92 0 01-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" /></svg>
             </div>
-            <svg className="w-5 h-5 text-[#ccc] group-hover:text-[#00c853] transition-colors mt-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" /></svg>
+            <h3 className="text-xl md:text-2xl font-bold text-[#0b0b0b] mb-1 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>Web Apps</h3>
+            <p className="text-xs text-[#888]">Modern & Responsive</p>
+            <svg className="w-5 h-5 text-[#ddd] group-hover:text-[#00c853] transition-all duration-300 mt-3 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" /></svg>
           </div>
         </div>
 
-        {/* Card 3: AI Agents - span 4, blue/dark bg, tall */}
-        <div data-hover className="bento-card md:col-span-4 rounded-[1.5rem] md:rounded-[2.5rem] bg-[#1e4bff] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[320px] md:min-h-[480px]" ref={useReveal('reveal-scale', 0.05)}>
-          <div>
-            <span className="text-[11px] font-bold text-white/60 uppercase tracking-widest block mb-4 md:mb-6">#GenerativeAI</span>
-            <h3 className="text-3xl md:text-5xl font-extrabold text-white leading-[1.05] mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>AI<br/>Agents</h3>
-            <p className="text-white/60 text-sm mb-4 md:mb-6">Automate. Optimize. Evolve.</p>
+        {/* Card 3: AI Agents - span 4, blue bg */}
+        <div data-hover className="bento-card md:col-span-4 rounded-[1.5rem] md:rounded-[2rem] bg-[#1e4bff] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[340px] md:min-h-[500px] relative overflow-hidden" ref={useReveal('reveal-scale', 0.05)}>
+          {/* Decorative watermark */}
+          <div className="absolute top-8 right-4 md:right-8 text-[120px] md:text-[180px] font-black leading-none text-white/[0.04] pointer-events-none select-none" style={{ fontFamily: 'Space Grotesk' }}>AI</div>
+          <div className="relative z-10">
+            <span className="text-[11px] font-bold text-white/50 uppercase tracking-widest block mb-4 md:mb-6">#GenerativeAI</span>
+            <h3 className="text-[clamp(2.5rem,6vw,4.5rem)] font-black text-white leading-[0.95] mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>AI<br/>Agents</h3>
+            <p className="text-white/50 text-sm italic mb-6">Automate. Optimize. Evolve.</p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {['Chatbots', 'Custom LLMs', 'Automation', 'Workflows', 'Predictive', 'Analytics'].map((tag, j) => (
-              <span key={j} className="text-[11px] font-semibold px-3 py-1.5 rounded-full border border-white/20 text-white/70">{tag}</span>
-            ))}
+          <div className="relative z-10">
+            <div className="border-t border-white/10 pt-5">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+                {['Chatbots', 'Custom LLMs', 'Automation', 'Workflows', 'Predictive', 'Analytics'].map((tag, j) => (
+                  <span key={j} className="text-[12px] font-semibold text-white/60">{tag}</span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Row 2: UI/UX Design - span 6, dark bg */}
-        <div data-hover className="bento-card md:col-span-6 rounded-[1.5rem] md:rounded-[2.5rem] bg-[#0b0b0b] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[200px] md:min-h-[260px]" ref={useReveal('reveal-scale', 0.05)}>
-          <div>
-            <h3 className="text-xl md:text-3xl font-bold text-white mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>UI/UX Design</h3>
-            <p className="text-[#888] text-sm">Award-winning interfaces</p>
+        <div data-hover className="bento-card md:col-span-6 rounded-[1.5rem] md:rounded-[2rem] bg-[#0b0b0b] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[220px] md:min-h-[280px] relative overflow-hidden" ref={useReveal('reveal-scale', 0.05)}>
+          <div className="absolute -right-4 -top-4 w-32 h-32 rounded-full bg-[#00c853]/5 blur-2xl group-hover:bg-[#00c853]/10 transition-all duration-700 pointer-events-none" />
+          <div className="relative z-10">
+            <h3 className="text-2xl md:text-4xl font-black text-white mb-2 group-hover:text-[#00c853] transition-colors duration-500" style={{ fontFamily: 'Plus Jakarta Sans' }}>UI/UX Design</h3>
+            <p className="text-[#555] text-sm">Award-winning interfaces</p>
           </div>
-          <p className="text-[#666] text-sm leading-relaxed mt-4 max-w-md">User-centric design that drives engagement and conversion. We build experiences, not just screens.</p>
+          <p className="text-[#444] text-sm leading-relaxed mt-4 max-w-md relative z-10">User-centric design that drives engagement and conversion. We build experiences, not just screens.</p>
         </div>
 
         {/* Product Strategy - span 6, dark bg */}
-        <div data-hover className="bento-card md:col-span-6 rounded-[1.5rem] md:rounded-[2.5rem] bg-[#0b0b0b] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[200px] md:min-h-[260px]" ref={useReveal('reveal-scale', 0.05)}>
-          <div>
-            <h3 className="text-xl md:text-3xl font-bold text-white mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>Product Strategy</h3>
-            <p className="text-[#888] text-sm">From MVP to Scale</p>
+        <div data-hover className="bento-card md:col-span-6 rounded-[1.5rem] md:rounded-[2rem] bg-[#0b0b0b] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[220px] md:min-h-[280px] relative overflow-hidden" ref={useReveal('reveal-scale', 0.05)}>
+          <div className="absolute -left-4 -bottom-4 w-32 h-32 rounded-full bg-[#00c853]/5 blur-2xl group-hover:bg-[#00c853]/10 transition-all duration-700 pointer-events-none" />
+          <div className="relative z-10">
+            <h3 className="text-2xl md:text-4xl font-black text-white mb-2 group-hover:text-[#00c853] transition-colors duration-500" style={{ fontFamily: 'Plus Jakarta Sans' }}>Product Strategy</h3>
+            <p className="text-[#555] text-sm">From MVP to Scale</p>
           </div>
-          <p className="text-[#666] text-sm leading-relaxed mt-4 max-w-md">Roadmapping, feasibility analysis, and growth hacking for your digital product.</p>
+          <p className="text-[#444] text-sm leading-relaxed mt-4 max-w-md relative z-10">Roadmapping, feasibility analysis, and growth hacking for your digital product.</p>
         </div>
       </div>
     </section>
@@ -740,120 +810,132 @@ function FAQ() {
 /* ═══════════════════════ CTA ═══════════════════════ */
 function CTA() {
   return (
-    <section id="contact" className="w-full bg-white py-20 md:py-32 px-4 md:px-12 relative overflow-hidden">
-      <div className="absolute top-20 left-10 w-[300px] h-[300px] rounded-full bg-[#00c853]/[0.04] blur-[80px] blob pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[250px] h-[250px] rounded-full bg-[#00c853]/[0.06] blur-[80px] blob-2 pointer-events-none" />
+    <section id="contact" className="w-full relative overflow-hidden">
+      {/* Blue section */}
+      <div className="w-full bg-[#1e4bff] pt-20 md:pt-32 pb-32 md:pb-44 px-4 md:px-12 relative overflow-hidden">
+        {/* Subtle gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1e4bff] via-[#1e4bff] to-[#1a42e6] pointer-events-none" />
+        {/* Decorative blobs */}
+        <div className="absolute top-10 -left-20 w-[400px] h-[400px] rounded-full bg-white/[0.03] blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-10 -right-20 w-[300px] h-[300px] rounded-full bg-[#00c853]/[0.05] blur-[80px] pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto text-center relative z-10">
-        <div className="reveal-up" ref={useReveal()}>
-          <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#888] mb-4 block">Let's Collaborate</span>
-          <h2 className="text-[clamp(2.5rem,5vw,4.5rem)] font-extrabold tracking-tight text-[#0b0b0b] leading-[1.05] mb-6" style={{ fontFamily: 'Plus Jakarta Sans' }}>
-            Ready to <span className="text-[#00c853]">Scale</span><br />Your Business?
-          </h2>
-          <p className="text-[#666] text-base md:text-lg max-w-lg mx-auto leading-relaxed mb-10">
-            Whether you need a web app, mobile solution, or AI integration — our team is ready to engineer your next outcome.
-          </p>
-        </div>
-        <div className="reveal-up flex flex-col sm:flex-row gap-4 justify-center items-center" ref={useReveal()}>
-          <a href="#" data-hover className="group inline-flex items-center gap-2 bg-[#0b0b0b] text-white font-semibold px-8 py-4 rounded-full hover:bg-[#00c853] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,200,83,0.3)]">
-            Start A Project
-            <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-          </a>
-          <a href="#services" data-hover className="inline-flex items-center gap-2 text-sm font-semibold border border-[#0b0b0b] text-[#0b0b0b] px-6 py-3.5 rounded-full hover:bg-[#0b0b0b] hover:text-white transition-all duration-300">View Services</a>
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="reveal-up" ref={useReveal()}>
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-8 md:mb-10">
+              <span className="w-2 h-2 rounded-full bg-[#00c853] pulse-dot" />
+              <span className="text-[11px] font-bold text-white/80 uppercase tracking-[0.15em]">Let's Collaborate</span>
+            </div>
+
+            {/* Heading */}
+            <h2 className="text-[clamp(2.5rem,6vw,5.5rem)] font-black tracking-[-0.02em] text-white leading-[1] mb-6" style={{ fontFamily: 'Plus Jakarta Sans' }}>
+              Ready to <span className="italic text-[#00c853]" style={{ fontFamily: 'Georgia, Times, serif' }}>Scale</span><br />Your Business?
+            </h2>
+            <p className="text-white/60 text-base md:text-lg max-w-lg mx-auto leading-relaxed mb-10">
+              Whether you need a high-performance web app, a mobile solution, or an AI integration, our team is ready to engineer your success.
+            </p>
+          </div>
+
+          {/* Buttons */}
+          <div className="reveal-up flex flex-col sm:flex-row gap-4 justify-center items-center" ref={useReveal()}>
+            <a href="mailto:hello@supernetrix.com" data-hover className="group inline-flex items-center gap-3 bg-[#00c853] text-[#0b0b0b] font-bold px-8 py-4 rounded-full hover:bg-[#00e676] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,200,83,0.4)] text-sm uppercase tracking-wider">
+              Start A Project
+              <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </a>
+            <a href="#services" data-hover className="inline-flex items-center gap-2 text-sm font-bold border-2 border-white/30 text-white px-7 py-3.5 rounded-full hover:bg-white hover:text-[#1e4bff] transition-all duration-300 uppercase tracking-wider">
+              View Services
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" /></svg>
+            </a>
+          </div>
         </div>
       </div>
 
-      {/* Rotating SVG text */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[40%] w-[300px] h-[300px] md:w-[700px] md:h-[700px] pointer-events-none">
-        <svg viewBox="0 0 500 500" className="w-full h-full spin-slow opacity-[0.06]">
-          <defs><path id="curve" d="M 250,250 m -200,0 a 200,200 0 1,1 400,0 a 200,200 0 1,1 -400,0" fill="none" /></defs>
-          <text className="text-[16px] uppercase tracking-[0.3em] fill-[#0b0b0b]" style={{ fontFamily: 'Space Grotesk', fontWeight: 700 }}>
-            <textPath href="#curve">DESIGN ✦ DEVELOP ✦ DEPLOY ✦ SCALE ✦ DESIGN ✦ DEVELOP ✦ DEPLOY ✦ SCALE ✦&nbsp;</textPath>
-          </text>
-        </svg>
+      {/* Marquee rows at bottom — overlapping the blue/white boundary */}
+      <div className="relative -mt-16 md:-mt-20 z-20 overflow-hidden">
+        <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE']} className="text-[clamp(1.5rem,4vw,3rem)] font-black text-[#0b0b0b] tracking-tight mb-2" />
+        <Marquee items={['DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦', 'DESIGN']} reverse className="text-[clamp(1.5rem,4vw,3rem)] font-black text-[#0b0b0b]/10 tracking-tight" />
       </div>
     </section>
   )
 }
 
-/* ═══════════════════════ FOOTER (sujalbuild.in style) ═══════════════════════ */
+/* ═══════════════════════ FOOTER ═══════════════════════ */
 function Footer() {
   const socials = [
-    { href: 'https://www.linkedin.com/company/supernetrix', label: 'Li', icon: <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> },
-    { href: 'https://www.instagram.com/supernetrix', label: 'Ig', icon: <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> },
-    { href: 'https://x.com/supernetrix', label: 'X', icon: <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> },
+    { href: 'https://www.linkedin.com/company/supernetrix', icon: <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> },
+    { href: 'https://www.instagram.com/supernetrix', icon: <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> },
+    { href: 'https://x.com/supernetrix', icon: <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> },
   ]
 
   return (
-    <footer className="w-full bg-[#0b0b0b] pt-16 md:pt-20 pb-8 px-4 md:px-12">
+    <footer className="w-full bg-[#0b0b0b] pt-16 md:pt-24 pb-8 px-4 md:px-12">
       <div className="max-w-[1600px] mx-auto">
-        {/* Main grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-8 mb-16">
-          {/* Col 1: Contacts */}
-          <div className="lg:col-span-2">
-            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#555] mb-4 block">Contacts</span>
-            <a href="mailto:hello@supernetrix.com" data-hover className="text-white text-lg font-semibold hover:text-[#00c853] transition-colors block mb-8">hello@supernetrix.com</a>
+        {/* Top: Brand + Email */}
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 mb-16 md:mb-20">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#444] mb-4 block">Contacts</span>
+            <a href="mailto:hello@supernetrix.com" data-hover className="text-white text-xl md:text-2xl font-semibold hover:text-[#00c853] transition-colors">hello@supernetrix.com</a>
+          </div>
+          <div className="flex items-center gap-3">
+            {socials.map((s, i) => (
+              <a key={i} href={s.href} target="_blank" rel="noopener" data-hover
+                className="w-11 h-11 rounded-full bg-[#1a1a1a] flex items-center justify-center text-[#888] hover:text-white hover:bg-[#00c853] transition-all duration-300">
+                {s.icon}
+              </a>
+            ))}
+          </div>
+        </div>
 
-            <span className="text-xs text-[#555] block mb-2">Designed & Developed By</span>
-            <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-2" style={{ fontFamily: 'Plus Jakarta Sans' }}>SuperNetrix</h3>
-            <p className="text-[#666] text-sm leading-relaxed max-w-xs">Strategic Technology Partner crafting high-impact digital experiences for startups and enterprises.</p>
-            <p className="text-[#555] text-xs mt-3">Based globally. Building remotely.</p>
+        {/* Main grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-6 mb-16 md:mb-20">
+          {/* Col 1: About */}
+          <div className="col-span-2 sm:col-span-3 lg:col-span-2">
+            <span className="text-xs text-[#444] block mb-3">Designed & Developed By</span>
+            <h3 className="text-3xl md:text-4xl font-black text-white mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>SuperNetrix</h3>
+            <p className="text-[#555] text-sm leading-relaxed max-w-sm">Strategic Technology Partner crafting high-impact digital experiences for startups and enterprises.</p>
+            <p className="text-[#333] text-xs mt-4">Based globally. Building remotely.</p>
           </div>
 
           {/* Col 2: Quick Links */}
           <div>
-            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#555] mb-4 block">Quick Links</span>
+            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#444] mb-5 block">Quick Links</span>
             <nav className="flex flex-col gap-3">
               {[['Home', '#'], ['About', '#about'], ['Services', '#services'], ['Case Studies', '#work'], ['Contact', '#contact']].map(([label, href]) => (
-                <a key={label} href={href} data-hover className="footer-link text-sm text-[#888] inline-block w-fit">{label}</a>
+                <a key={label} href={href} data-hover className="footer-link text-sm text-[#666] inline-block w-fit">{label}</a>
               ))}
             </nav>
           </div>
 
           {/* Col 3: Legal */}
           <div>
-            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#555] mb-4 block">Legal</span>
+            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#444] mb-5 block">Legal</span>
             <nav className="flex flex-col gap-3">
               {['Privacy Policy', 'Terms & Conditions', 'Code of Conduct'].map(label => (
-                <a key={label} href="#" data-hover className="footer-link text-sm text-[#888] inline-block w-fit">{label}</a>
+                <a key={label} href="#" data-hover className="footer-link text-sm text-[#666] inline-block w-fit">{label}</a>
               ))}
             </nav>
           </div>
 
-          {/* Col 4: General Inquiries */}
+          {/* Col 4: Inquiries */}
           <div>
-            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#555] mb-4 block">General Inquiries</span>
-            <div className="space-y-4">
+            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#444] mb-5 block">Inquiries</span>
+            <div className="space-y-5">
               <div>
-                <span className="text-xs text-[#555] block mb-1">SuperNetrix Team</span>
-                <a href="mailto:hello@supernetrix.com" data-hover className="footer-link text-sm text-[#888] inline-block w-fit">hello@supernetrix.com</a>
+                <span className="text-xs text-[#444] block mb-1">General</span>
+                <a href="mailto:hello@supernetrix.com" data-hover className="footer-link text-sm text-[#666] inline-block w-fit">hello@supernetrix.com</a>
               </div>
-            </div>
-          </div>
-
-          {/* Col 5: Project Strategy */}
-          <div>
-            <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#555] mb-4 block">Project Strategy</span>
-            <div className="space-y-3">
-              <span className="text-sm text-[#888] block">Consultancy</span>
-              <a href="mailto:projects@supernetrix.com" data-hover className="footer-link text-sm text-[#888] inline-block w-fit">projects@supernetrix.com</a>
+              <div>
+                <span className="text-xs text-[#444] block mb-1">Projects</span>
+                <a href="mailto:projects@supernetrix.com" data-hover className="footer-link text-sm text-[#666] inline-block w-fit">projects@supernetrix.com</a>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="border-t border-[#1a1a1a] pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-[#555]">&copy; 2026 SuperNetrix. All Rights Reserved.</p>
-
-          {/* Social icons */}
-          <div className="flex items-center gap-2">
-            {socials.map((s, i) => (
-              <a key={i} href={s.href} target="_blank" rel="noopener" data-hover
-                className="w-9 h-9 rounded-full border border-[#222] flex items-center justify-center text-[#666] hover:text-white hover:border-[#00c853] hover:bg-[#00c853]/10 transition-all duration-300">
-                {s.icon}
-              </a>
-            ))}
-          </div>
+          <p className="text-xs text-[#444]">&copy; 2026 SuperNetrix. All Rights Reserved.</p>
+          <a href="#" data-hover className="text-xs text-[#444] hover:text-[#00c853] transition-colors">Back to Top ↑</a>
         </div>
       </div>
     </footer>
