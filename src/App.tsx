@@ -103,7 +103,7 @@ function Navbar() {
   const links = [{ l: 'About', h: '#about' }, { l: 'Services', h: '#services' }, { l: 'Work', h: '#work' }, { l: 'Process', h: '#process' }, { l: 'FAQ', h: '#faq' }, { l: 'Contact', h: '#contact' }]
   return (
     <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${scrolled ? 'bg-white/80 backdrop-blur-xl shadow-[0_1px_0_rgba(0,0,0,0.06)]' : 'bg-transparent'}`}>
-      <div className="max-w-[1600px] mx-auto px-6 md:px-12 h-16 md:h-20 flex items-center justify-between">
+      <div className="max-w-[1600px] mx-auto px-4 md:px-12 h-14 md:h-20 flex items-center justify-between">
         <a href="#" className="text-lg font-bold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Space Grotesk' }}>super<span className="text-[#00c853]">netrix</span>.io</a>
         <div className="hidden lg:flex items-center gap-8">
           {links.map(l => <a key={l.h} href={l.h} className="text-[13px] font-medium text-[#666] hover:text-[#0b0b0b] transition-colors duration-300">{l.l}</a>)}
@@ -144,7 +144,7 @@ function Hero() {
   useEffect(() => { setTimeout(() => setLoaded(true), 100) }, [])
 
   return (
-    <section className="relative w-full bg-white min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 pb-20 px-6">
+    <section className="relative w-full bg-white min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 pb-16 md:pb-20 px-4 md:px-6">
       {/* Animated gradient blobs */}
       <div className="absolute top-20 -left-40 w-[600px] h-[600px] rounded-full bg-[#00c853]/[0.05] blur-[120px] blob pointer-events-none" />
       <div className="absolute bottom-10 -right-20 w-[500px] h-[500px] rounded-full bg-[#00c853]/[0.04] blur-[100px] blob-2 pointer-events-none" />
@@ -167,9 +167,9 @@ function Hero() {
 
       <div className="relative z-10 max-w-6xl mx-auto text-center">
         {/* Badge */}
-        <div className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#e5e5e5] bg-white/70 backdrop-blur-sm mb-12 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-          <span className="w-2 h-2 rounded-full bg-[#00c853] pulse-dot" />
-          <span className="text-[11px] font-semibold text-[#666] uppercase tracking-[0.15em]">Available for Projects &mdash; 2 Spots Left</span>
+        <div className={`inline-flex items-center gap-2 px-4 md:px-5 py-2 md:py-2.5 rounded-full border border-[#e5e5e5] bg-white/70 backdrop-blur-sm mb-8 md:mb-12 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+          <span className="w-2 h-2 rounded-full bg-[#00c853] pulse-dot shrink-0" />
+          <span className="text-[10px] md:text-[11px] font-semibold text-[#666] uppercase tracking-[0.1em] md:tracking-[0.15em]">Available for Projects &mdash; 2 Spots Left</span>
         </div>
 
         {/* Heading with BLUR REVEAL effect */}
@@ -196,21 +196,21 @@ function Hero() {
 
         {/* CTA */}
         <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center transition-all duration-1000 delay-[1800ms] ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <a href="#contact" data-hover className="group inline-flex items-center gap-3 bg-[#0b0b0b] text-white font-semibold px-8 py-4 rounded-full hover:bg-[#00c853] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,200,83,0.3)] text-[15px]">
+          <a href="#contact" data-hover className="group inline-flex items-center gap-3 bg-[#0b0b0b] text-white font-semibold px-6 md:px-8 py-3.5 md:py-4 rounded-full hover:bg-[#00c853] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,200,83,0.3)] text-sm md:text-[15px]">
             Start Your Project
             <svg className="w-4 h-4 transition-transform group-hover:translate-x-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </a>
-          <a href="#work" data-hover className="inline-flex items-center gap-2 text-[15px] font-semibold border border-[#d5d5d5] text-[#0b0b0b] px-7 py-4 rounded-full hover:border-[#0b0b0b] transition-all duration-300">
+          <a href="#work" data-hover className="inline-flex items-center gap-2 text-sm md:text-[15px] font-semibold border border-[#d5d5d5] text-[#0b0b0b] px-6 md:px-7 py-3.5 md:py-4 rounded-full hover:border-[#0b0b0b] transition-all duration-300">
             View Our Work
           </a>
         </div>
 
         {/* Trusted by strip */}
-        <div className={`mt-16 flex flex-col items-center gap-3 transition-all duration-1000 delay-[2200ms] ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+        <div className={`mt-10 md:mt-16 flex flex-col items-center gap-3 transition-all duration-1000 delay-[2200ms] ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <span className="text-[11px] font-semibold text-[#bbb] uppercase tracking-[0.15em]">Trusted by Leaders</span>
-          <div className="flex items-center gap-6 md:gap-10 text-[#0b0b0b]/20">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10 text-[#0b0b0b]/20">
             {['VoiceGuard AI', 'Cesari London', 'Future Sportler', 'Graphite'].map((name, i) => (
-              <span key={i} className="text-xs md:text-sm font-bold tracking-wider uppercase whitespace-nowrap">{name}</span>
+              <span key={i} className="text-[10px] md:text-sm font-bold tracking-wider uppercase whitespace-nowrap">{name}</span>
             ))}
           </div>
         </div>
@@ -260,7 +260,7 @@ function About() {
   }, [])
 
   return (
-    <section id="about" className="max-w-[1600px] mx-auto px-6 md:px-12 py-32 md:py-40 bg-white">
+    <section id="about" className="max-w-[1600px] mx-auto px-4 md:px-12 py-20 md:py-40 bg-white">
       <div className="reveal-up" ref={useReveal()}>
         <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-extrabold tracking-tight leading-[1.05] text-[#0b0b0b] mb-4" style={{ fontFamily: 'Plus Jakarta Sans' }}>
           MORE THAN <span className="italic text-[#00c853] relative">code<svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 100 6" fill="none"><path d="M0 5C25 1 75 1 100 5" stroke="#00c853" strokeWidth="2" strokeLinecap="round"/></svg></span>
@@ -293,13 +293,13 @@ function Stats() {
     { r: c4, label: 'Faster Delivery', icon: '🏎️' },
   ]
   return (
-    <section className="max-w-[1600px] mx-auto px-6 md:px-12 py-16 bg-white">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <section className="max-w-[1600px] mx-auto px-4 md:px-12 py-12 md:py-16 bg-white">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
         {stats.map((s, i) => (
-          <div key={i} className={`reveal-up group relative rounded-2xl border border-[#e5e5e5] p-6 md:p-8 hover:border-[#00c853] transition-all duration-500 overflow-hidden`} ref={useReveal()}>
-            <div className="absolute top-3 right-3 text-2xl opacity-20 group-hover:opacity-50 transition-opacity">{s.icon}</div>
-            <span ref={s.r.ref} className="text-4xl md:text-5xl font-extrabold text-[#0b0b0b] block mb-1 group-hover:text-[#00c853] transition-colors duration-300" style={{ fontFamily: 'Space Grotesk' }}>{s.r.display}</span>
-            <span className="text-xs font-semibold text-[#888] uppercase tracking-wider">{s.label}</span>
+          <div key={i} className={`reveal-up group relative rounded-2xl border border-[#e5e5e5] p-4 md:p-8 hover:border-[#00c853] transition-all duration-500 overflow-hidden`} ref={useReveal()}>
+            <div className="absolute top-3 right-3 text-xl md:text-2xl opacity-20 group-hover:opacity-50 transition-opacity">{s.icon}</div>
+            <span ref={s.r.ref} className="text-3xl md:text-5xl font-extrabold text-[#0b0b0b] block mb-1 group-hover:text-[#00c853] transition-colors duration-300" style={{ fontFamily: 'Space Grotesk' }}>{s.r.display}</span>
+            <span className="text-[10px] md:text-xs font-semibold text-[#888] uppercase tracking-wider">{s.label}</span>
           </div>
         ))}
       </div>
@@ -318,21 +318,21 @@ function WhatWeBuild() {
     { label: 'API Systems', desc: 'Microservices & integrations', icon: '□' },
   ]
   return (
-    <section className="w-full bg-[#0b0b0b] py-28 px-6 md:px-12 overflow-hidden">
+    <section className="w-full bg-[#0b0b0b] py-20 md:py-28 px-4 md:px-12 overflow-hidden">
       <div className="max-w-[1600px] mx-auto">
-        <div className="reveal-up mb-16" ref={useReveal()}>
+        <div className="reveal-up mb-10 md:mb-16" ref={useReveal()}>
           <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#00c853] block mb-3">What We Build</span>
-          <h2 className="text-[clamp(2rem,4.5vw,3.5rem)] font-extrabold text-white tracking-tight" style={{ fontFamily: 'Plus Jakarta Sans' }}>
+          <h2 className="text-[clamp(1.75rem,4.5vw,3.5rem)] font-extrabold text-white tracking-tight" style={{ fontFamily: 'Plus Jakarta Sans' }}>
             Everything Ships <span className="italic text-[#00c853]">Production-Grade</span>
           </h2>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
           {items.map((item, i) => {
             const ref = useReveal('reveal-scale', 0.1)
             return (
-              <div key={i} ref={ref} data-hover className="group relative rounded-2xl border border-[#222] p-6 md:p-8 hover:border-[#00c853] transition-all duration-500 hover:bg-[#111] overflow-hidden">
-                <div className="absolute top-4 right-4 text-4xl text-[#00c853]/10 group-hover:text-[#00c853]/30 transition-all duration-500 group-hover:scale-125">{item.icon}</div>
-                <h3 className="text-lg md:text-xl font-bold text-white mb-1 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Space Grotesk' }}>{item.label}</h3>
+              <div key={i} ref={ref} data-hover className="group relative rounded-2xl border border-[#222] p-5 md:p-8 hover:border-[#00c853] transition-all duration-500 hover:bg-[#111] overflow-hidden">
+                <div className="absolute top-4 right-4 text-3xl md:text-4xl text-[#00c853]/10 group-hover:text-[#00c853]/30 transition-all duration-500 group-hover:scale-125">{item.icon}</div>
+                <h3 className="text-base md:text-xl font-bold text-white mb-1 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Space Grotesk' }}>{item.label}</h3>
                 <p className="text-sm text-[#666] group-hover:text-[#888] transition-colors">{item.desc}</p>
               </div>
             )
@@ -346,7 +346,7 @@ function WhatWeBuild() {
 /* ═══════════════════════ TRIPLE MARQUEE ═══════════════════════ */
 function TripleMarquee() {
   return (
-    <section className="relative w-full py-12 bg-white overflow-hidden -rotate-1">
+    <section className="relative w-full py-8 md:py-12 bg-white overflow-hidden -rotate-1">
       <Marquee items={['BUILD THE FUTURE', '✦', 'SHIP FAST', '✦', 'SCALE GLOBALLY']} className="text-[clamp(2rem,5vw,4rem)] font-extrabold text-[#0b0b0b] tracking-tight mb-3" />
       <Marquee items={['PRODUCT ENGINEERING', '✦', 'AI INTEGRATION', '✦', 'WEB PLATFORMS']} reverse className="text-[clamp(2rem,5vw,4rem)] font-extrabold text-[#0b0b0b]/[0.06] tracking-tight mb-3" />
       <Marquee items={['SUPERNETRIX', '≈', 'MASTERS AT WORK', '≈', 'ENGINEER THE OUTCOME']} className="text-[clamp(1rem,2.5vw,1.6rem)] font-bold text-[#00c853]/50 tracking-[0.05em]" speed="marquee-slow" />
@@ -365,21 +365,21 @@ function Projects() {
   ]
 
   return (
-    <section id="work" className="max-w-[1600px] mx-auto px-6 md:px-12 py-28 bg-white">
-      <div className="flex items-end justify-between mb-14">
+    <section id="work" className="max-w-[1600px] mx-auto px-4 md:px-12 py-20 md:py-28 bg-white">
+      <div className="flex items-end justify-between mb-10 md:mb-14">
         <div className="reveal-up" ref={useReveal()}>
           <span className="text-xs font-bold uppercase tracking-[0.15em] text-[#888] block mb-3">Our Work</span>
-          <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>Featured Projects</h2>
+          <h2 className="text-[clamp(1.75rem,4vw,3.5rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>Featured Projects</h2>
         </div>
       </div>
 
       {/* Horizontal scroll project cards */}
-      <div className="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory -mx-2 px-2 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+      <div className="flex gap-4 md:gap-6 overflow-x-auto pb-8 snap-x snap-mandatory -mx-2 px-2 scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
         {projects.map((p, i) => (
           <a key={i} href={p.url} target="_blank" rel="noopener" data-hover
-            className="tilt-card snap-start flex-shrink-0 w-[340px] md:w-[420px] rounded-3xl border border-[#e5e5e5] overflow-hidden bg-white group hover:border-[#00c853] transition-all duration-500">
+            className="tilt-card snap-start flex-shrink-0 w-[280px] sm:w-[340px] md:w-[420px] rounded-3xl border border-[#e5e5e5] overflow-hidden bg-white group hover:border-[#00c853] transition-all duration-500">
             {/* Visual header */}
-            <div className="relative h-[220px] md:h-[260px] overflow-hidden" style={{ background: `linear-gradient(135deg, ${p.color}15, ${p.color}08)` }}>
+            <div className="relative h-[180px] sm:h-[220px] md:h-[260px] overflow-hidden" style={{ background: `linear-gradient(135deg, ${p.color}15, ${p.color}08)` }}>
               {/* Large letter */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="text-[120px] md:text-[160px] font-black leading-none opacity-[0.08] group-hover:opacity-[0.15] group-hover:scale-110 transition-all duration-700" style={{ color: p.color, fontFamily: 'Space Grotesk' }}>{p.name.charAt(0)}</span>
@@ -425,9 +425,9 @@ function TechStack() {
   ]
 
   return (
-    <section className="max-w-[1600px] mx-auto px-6 md:px-12 py-28 bg-white relative overflow-hidden">
-      <div className="reveal-up mb-16" ref={useReveal()}>
-        <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>
+    <section className="max-w-[1600px] mx-auto px-4 md:px-12 py-20 md:py-28 bg-white relative overflow-hidden">
+      <div className="reveal-up mb-10 md:mb-16" ref={useReveal()}>
+        <h2 className="text-[clamp(1.75rem,4vw,3rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>
           Technology <span className="italic text-[#00c853]">We Work</span> with.
         </h2>
       </div>
@@ -438,7 +438,7 @@ function TechStack() {
           const ref = useReveal('reveal-scale', 0.05)
           const isEven = (Math.floor(i / 4) + i % 4) % 2 === 0
           return (
-            <div key={i} ref={ref} data-hover className={`group flex flex-col items-center justify-center py-10 md:py-14 px-6 transition-all duration-500 hover:scale-[1.02] relative overflow-hidden ${isEven ? 'bg-[#f5f5f7]' : 'bg-white'}`}>
+            <div key={i} ref={ref} data-hover className={`group flex flex-col items-center justify-center py-8 md:py-14 px-4 md:px-6 transition-all duration-500 hover:scale-[1.02] relative overflow-hidden ${isEven ? 'bg-[#f5f5f7]' : 'bg-white'}`}>
               {/* Large abbreviation as background watermark */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <span className="text-[100px] md:text-[140px] font-black leading-none opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500 select-none" style={{ fontFamily: 'Space Grotesk', color: t.color }}>{t.abbr}</span>
@@ -466,10 +466,10 @@ function Milestones() {
     { year: '2024', title: 'SuperNetrix Founded', desc: 'Launched with a mission: engineer the outcome, not just the feature. Started with 3 founding engineers and a vision to build differently.' },
   ]
   return (
-    <section className="w-full bg-[#0b0b0b] py-28 px-6 md:px-12">
+    <section className="w-full bg-[#0b0b0b] py-20 md:py-28 px-4 md:px-12">
       <div className="max-w-[1600px] mx-auto">
         {/* Two-column: heading left, items right */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-24">
           {/* Left - heading */}
           <div className="reveal-up" ref={useReveal()}>
             <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-extrabold text-white tracking-tight leading-[1.1]" style={{ fontFamily: 'Plus Jakarta Sans' }}>
@@ -487,15 +487,15 @@ function Milestones() {
               const isOpen = openIdx === i
               return (
                 <div key={i} ref={ref} className="border-b border-[#222] group" data-hover>
-                  <button onClick={() => setOpenIdx(isOpen ? null : i)} className="w-full flex items-start gap-6 py-6 text-left">
-                    <span className="text-sm font-bold text-[#555] shrink-0 pt-1 w-12" style={{ fontFamily: 'Space Grotesk' }}>{item.year}</span>
+                  <button onClick={() => setOpenIdx(isOpen ? null : i)} className="w-full flex items-start gap-3 md:gap-6 py-5 md:py-6 text-left">
+                    <span className="text-sm font-bold text-[#555] shrink-0 pt-1 w-10 md:w-12" style={{ fontFamily: 'Space Grotesk' }}>{item.year}</span>
                     <div className="flex-1">
                       <h3 className={`text-lg md:text-xl font-bold transition-colors duration-300 ${isOpen ? 'text-[#00c853]' : 'text-white group-hover:text-[#00c853]'}`} style={{ fontFamily: 'Plus Jakarta Sans' }}>{item.title}</h3>
                     </div>
                     <span className={`text-[#00c853] text-xl shrink-0 transition-all duration-300 ${isOpen ? 'rotate-45 scale-110' : ''}`}>+</span>
                   </button>
                   <div className={`overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-40 pb-6' : 'max-h-0'}`}>
-                    <p className="text-[#888] text-sm leading-relaxed pl-[72px] pr-8">{item.desc}</p>
+                    <p className="text-[#888] text-sm leading-relaxed pl-[52px] md:pl-[72px] pr-4 md:pr-8">{item.desc}</p>
                   </div>
                 </div>
               )
@@ -510,18 +510,18 @@ function Milestones() {
 /* ═══════════════════════ SERVICES (12-col bento grid - sujalbuild.in exact) ═══════════════════════ */
 function Services() {
   return (
-    <section id="services" className="max-w-[1600px] mx-auto px-6 md:px-12 py-28 bg-white">
-      <div className="reveal-up mb-16" ref={useReveal()}>
-        <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>
+    <section id="services" className="max-w-[1600px] mx-auto px-4 md:px-12 py-20 md:py-28 bg-white">
+      <div className="reveal-up mb-10 md:mb-16" ref={useReveal()}>
+        <h2 className="text-[clamp(1.75rem,4vw,3.5rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>
           OUR <span className="italic text-[#00c853]">services</span>
         </h2>
       </div>
 
       {/* 12-column bento grid matching sujalbuild.in exactly */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-6" style={{ gridAutoRows: 'minmax(0, auto)' }}>
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6" style={{ gridAutoRows: 'minmax(0, auto)' }}>
 
         {/* Card 1: Mobile Apps - span 5, green bg, tall */}
-        <div data-hover className="bento-card md:col-span-5 rounded-[2.5rem] bg-[#00c853] p-8 md:p-10 flex flex-col justify-between group reveal-scale" style={{ minHeight: '480px' }} ref={useReveal('reveal-scale', 0.05)}>
+        <div data-hover className="bento-card md:col-span-5 rounded-[1.5rem] md:rounded-[2.5rem] bg-[#00c853] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[320px] md:min-h-[480px]" ref={useReveal('reveal-scale', 0.05)}>
           <div>
             <div className="flex items-center gap-2 mb-auto">
               <svg className="w-6 h-6 text-[#0b0b0b]/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
@@ -529,8 +529,8 @@ function Services() {
             </div>
           </div>
           <div>
-            <h3 className="text-4xl md:text-5xl font-extrabold text-[#0b0b0b] leading-[1.05] mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>Mobile<br/>Apps</h3>
-            <p className="text-[#0b0b0b]/70 text-sm mb-6">iOS & Android Solutions</p>
+            <h3 className="text-3xl md:text-5xl font-extrabold text-[#0b0b0b] leading-[1.05] mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>Mobile<br/>Apps</h3>
+            <p className="text-[#0b0b0b]/70 text-sm mb-4 md:mb-6">iOS & Android Solutions</p>
             <div className="flex flex-wrap gap-2">
               <span className="text-xs font-semibold px-4 py-2 rounded-full bg-[#0b0b0b]/10 text-[#0b0b0b]">Flutter</span>
               <span className="text-xs font-semibold px-4 py-2 rounded-full bg-[#0b0b0b]/10 text-[#0b0b0b]">Cross-platform Mastery</span>
@@ -539,17 +539,17 @@ function Services() {
         </div>
 
         {/* Card 2: SaaS + Web Apps stacked - span 3 */}
-        <div className="md:col-span-3 flex flex-col gap-5 md:gap-6">
-          <div data-hover className="bento-card flex-1 rounded-[2.5rem] bg-white border border-[#e5e5e5] p-7 flex flex-col justify-between group reveal-scale" ref={useReveal('reveal-scale', 0.05)}>
+        <div className="md:col-span-3 grid grid-cols-2 md:grid-cols-1 gap-4 md:gap-6">
+          <div data-hover className="bento-card flex-1 rounded-[1.5rem] md:rounded-[2.5rem] bg-white border border-[#e5e5e5] p-5 md:p-7 flex flex-col justify-between group reveal-scale" ref={useReveal('reveal-scale', 0.05)}>
             <div>
-              <h3 className="text-2xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>SaaS</h3>
+              <h3 className="text-xl md:text-2xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>SaaS</h3>
               <p className="text-sm text-[#666]">Scalable Platforms</p>
             </div>
             <svg className="w-5 h-5 text-[#ccc] group-hover:text-[#00c853] transition-colors mt-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" /></svg>
           </div>
-          <div data-hover className="bento-card flex-1 rounded-[2.5rem] bg-white border border-[#e5e5e5] p-7 flex flex-col justify-between group reveal-scale" ref={useReveal('reveal-scale', 0.05)}>
+          <div data-hover className="bento-card flex-1 rounded-[1.5rem] md:rounded-[2.5rem] bg-white border border-[#e5e5e5] p-5 md:p-7 flex flex-col justify-between group reveal-scale" ref={useReveal('reveal-scale', 0.05)}>
             <div>
-              <h3 className="text-2xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>Web Apps</h3>
+              <h3 className="text-xl md:text-2xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>Web Apps</h3>
               <p className="text-sm text-[#666]">Modern & Responsive</p>
             </div>
             <svg className="w-5 h-5 text-[#ccc] group-hover:text-[#00c853] transition-colors mt-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" /></svg>
@@ -557,11 +557,11 @@ function Services() {
         </div>
 
         {/* Card 3: AI Agents - span 4, blue/dark bg, tall */}
-        <div data-hover className="bento-card md:col-span-4 rounded-[2.5rem] bg-[#1e4bff] p-8 md:p-10 flex flex-col justify-between group reveal-scale" style={{ minHeight: '480px' }} ref={useReveal('reveal-scale', 0.05)}>
+        <div data-hover className="bento-card md:col-span-4 rounded-[1.5rem] md:rounded-[2.5rem] bg-[#1e4bff] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[320px] md:min-h-[480px]" ref={useReveal('reveal-scale', 0.05)}>
           <div>
-            <span className="text-[11px] font-bold text-white/60 uppercase tracking-widest block mb-6">#GenerativeAI</span>
-            <h3 className="text-4xl md:text-5xl font-extrabold text-white leading-[1.05] mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>AI<br/>Agents</h3>
-            <p className="text-white/60 text-sm mb-6">Automate. Optimize. Evolve.</p>
+            <span className="text-[11px] font-bold text-white/60 uppercase tracking-widest block mb-4 md:mb-6">#GenerativeAI</span>
+            <h3 className="text-3xl md:text-5xl font-extrabold text-white leading-[1.05] mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>AI<br/>Agents</h3>
+            <p className="text-white/60 text-sm mb-4 md:mb-6">Automate. Optimize. Evolve.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             {['Chatbots', 'Custom LLMs', 'Automation', 'Workflows', 'Predictive', 'Analytics'].map((tag, j) => (
@@ -571,18 +571,18 @@ function Services() {
         </div>
 
         {/* Row 2: UI/UX Design - span 6, dark bg */}
-        <div data-hover className="bento-card md:col-span-6 rounded-[2.5rem] bg-[#0b0b0b] p-8 md:p-10 flex flex-col justify-between group reveal-scale" style={{ minHeight: '260px' }} ref={useReveal('reveal-scale', 0.05)}>
+        <div data-hover className="bento-card md:col-span-6 rounded-[1.5rem] md:rounded-[2.5rem] bg-[#0b0b0b] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[200px] md:min-h-[260px]" ref={useReveal('reveal-scale', 0.05)}>
           <div>
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>UI/UX Design</h3>
+            <h3 className="text-xl md:text-3xl font-bold text-white mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>UI/UX Design</h3>
             <p className="text-[#888] text-sm">Award-winning interfaces</p>
           </div>
           <p className="text-[#666] text-sm leading-relaxed mt-4 max-w-md">User-centric design that drives engagement and conversion. We build experiences, not just screens.</p>
         </div>
 
         {/* Product Strategy - span 6, dark bg */}
-        <div data-hover className="bento-card md:col-span-6 rounded-[2.5rem] bg-[#0b0b0b] p-8 md:p-10 flex flex-col justify-between group reveal-scale" style={{ minHeight: '260px' }} ref={useReveal('reveal-scale', 0.05)}>
+        <div data-hover className="bento-card md:col-span-6 rounded-[1.5rem] md:rounded-[2.5rem] bg-[#0b0b0b] p-6 md:p-10 flex flex-col justify-between group reveal-scale min-h-[200px] md:min-h-[260px]" ref={useReveal('reveal-scale', 0.05)}>
           <div>
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>Product Strategy</h3>
+            <h3 className="text-xl md:text-3xl font-bold text-white mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>Product Strategy</h3>
             <p className="text-[#888] text-sm">From MVP to Scale</p>
           </div>
           <p className="text-[#666] text-sm leading-relaxed mt-4 max-w-md">Roadmapping, feasibility analysis, and growth hacking for your digital product.</p>
@@ -602,13 +602,13 @@ function Process() {
     { n: '05', t: 'Scale', d: 'Continuous optimization. We help you grow post-launch.' },
   ]
   return (
-    <section id="process" className="max-w-[1600px] mx-auto px-6 md:px-12 py-24 bg-white border-t border-[#e5e5e5]">
-      <div className="reveal-up mb-14" ref={useReveal()}>
-        <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>Our <span className="italic text-[#00c853]">Process</span></h2>
+    <section id="process" className="max-w-[1600px] mx-auto px-4 md:px-12 py-16 md:py-24 bg-white border-t border-[#e5e5e5]">
+      <div className="reveal-up mb-10 md:mb-14" ref={useReveal()}>
+        <h2 className="text-[clamp(1.75rem,4vw,3rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>Our <span className="italic text-[#00c853]">Process</span></h2>
       </div>
 
       {/* Horizontal steps */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 md:gap-4">
         {steps.map((s, i) => {
           const ref = useReveal('reveal-up', 0.1)
           return (
@@ -644,10 +644,10 @@ function Testimonials() {
   ]
 
   return (
-    <section className="w-full py-24 bg-[#fafafa] border-y border-[#e5e5e5] overflow-hidden">
-      <div className="max-w-[1600px] mx-auto px-6 md:px-12 mb-12">
+    <section className="w-full py-16 md:py-24 bg-[#fafafa] border-y border-[#e5e5e5] overflow-hidden">
+      <div className="max-w-[1600px] mx-auto px-4 md:px-12 mb-8 md:mb-12">
         <div className="reveal-up" ref={useReveal()}>
-          <h2 className="text-[clamp(2rem,4vw,3rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>
+          <h2 className="text-[clamp(1.75rem,4vw,3rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>
             Trusted by <span className="italic text-[#00c853]">Clients</span>
           </h2>
           <p className="text-[#888] text-sm mt-2">Real feedback from real partnerships</p>
@@ -658,7 +658,7 @@ function Testimonials() {
       <div className="overflow-hidden">
         <div className="testimonial-scroll inline-flex gap-5 px-6">
           {[...items, ...items].map((t, i) => (
-            <div key={i} data-hover className="flex-shrink-0 w-[380px] md:w-[440px] rounded-2xl border border-[#e5e5e5] bg-white p-7 hover:border-[#00c853] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
+            <div key={i} data-hover className="flex-shrink-0 w-[280px] sm:w-[380px] md:w-[440px] rounded-2xl border border-[#e5e5e5] bg-white p-5 md:p-7 hover:border-[#00c853] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
               {/* Stars */}
               <div className="flex gap-1 mb-4">
                 {[...Array(5)].map((_, j) => <span key={j} className="text-[#00c853] text-sm">★</span>)}
@@ -689,7 +689,7 @@ function FAQ() {
     { q: 'What tech stack do you specialize in?', a: 'MERN stack with AWS. Also: Redis, Kafka, Docker, Kubernetes, PostgreSQL, TypeScript. Stack-agnostic when needed.' },
   ]
   return (
-    <section id="faq" className="w-full bg-[#000] py-28 px-6 md:px-12">
+    <section id="faq" className="w-full bg-[#000] py-20 md:py-28 px-4 md:px-12">
       <div className="max-w-3xl mx-auto">
         <div className="reveal-up mb-12" ref={useReveal()}>
           <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-extrabold tracking-tight text-white mb-2" style={{ fontFamily: 'Plus Jakarta Sans' }}>FAQs</h2>
@@ -714,7 +714,7 @@ function FAQ() {
 /* ═══════════════════════ CTA ═══════════════════════ */
 function CTA() {
   return (
-    <section id="contact" className="w-full bg-white py-32 px-6 md:px-12 relative overflow-hidden">
+    <section id="contact" className="w-full bg-white py-20 md:py-32 px-4 md:px-12 relative overflow-hidden">
       <div className="absolute top-20 left-10 w-[300px] h-[300px] rounded-full bg-[#00c853]/[0.04] blur-[80px] blob pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-[250px] h-[250px] rounded-full bg-[#00c853]/[0.06] blur-[80px] blob-2 pointer-events-none" />
 
@@ -738,7 +738,7 @@ function CTA() {
       </div>
 
       {/* Rotating SVG text */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[40%] w-[500px] h-[500px] md:w-[700px] md:h-[700px] pointer-events-none">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-[40%] w-[300px] h-[300px] md:w-[700px] md:h-[700px] pointer-events-none">
         <svg viewBox="0 0 500 500" className="w-full h-full spin-slow opacity-[0.06]">
           <defs><path id="curve" d="M 250,250 m -200,0 a 200,200 0 1,1 400,0 a 200,200 0 1,1 -400,0" fill="none" /></defs>
           <text className="text-[16px] uppercase tracking-[0.3em] fill-[#0b0b0b]" style={{ fontFamily: 'Space Grotesk', fontWeight: 700 }}>
@@ -759,7 +759,7 @@ function Footer() {
   ]
 
   return (
-    <footer className="w-full bg-[#0b0b0b] pt-20 pb-8 px-6 md:px-12">
+    <footer className="w-full bg-[#0b0b0b] pt-16 md:pt-20 pb-8 px-4 md:px-12">
       <div className="max-w-[1600px] mx-auto">
         {/* Main grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-8 mb-16">

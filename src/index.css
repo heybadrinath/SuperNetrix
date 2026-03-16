@@ -10,7 +10,8 @@
   --light: #fafafa;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+@media (pointer: fine) { * { cursor: none !important; } }
 
 html { scroll-behavior: smooth; overflow-x: hidden; }
 
@@ -52,6 +53,17 @@ body {
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+/* Hide scrollbar for horizontal scroll sections */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─── TOUCH DEVICE FIXES ──────────────────────── */
+@media (pointer: coarse) {
+  .bento-card:hover { transform: none; box-shadow: none; }
+  .tilt-card:hover { box-shadow: none; }
+  .service-hover:hover { transform: none; box-shadow: none; }
+}
 
 /* ─── MARQUEE ───────────────────────────────── */
 @keyframes marquee-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
