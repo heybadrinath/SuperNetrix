@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --green: #00c853;
+  --dark: #0b0b0b;
+  --light: #fafafa;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--light);
+  color: var(--dark);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── CUSTOM CURSOR ─────────────────────────── */
+.cursor-dot {
+  width: 8px; height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transition: transform 0.1s ease, width 0.3s, height 0.3s, background 0.3s;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  width: 40px; height: 40px;
+  border: 1.5px solid var(--green);
+  border-radius: 50%;
+  position: fixed; top: 0; left: 0;
+  pointer-events: none;
+  z-index: 99998;
+  transition: width 0.4s cubic-bezier(.18,.89,.32,1.28), height 0.4s cubic-bezier(.18,.89,.32,1.28), border-color 0.3s;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+}
+.cursor-dot.hovering { width: 50px; height: 50px; background: rgba(0,200,83,0.15); }
+.cursor-ring.hovering { width: 60px; height: 60px; border-color: transparent; }
+
+/* ─── SCROLLBAR ─────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+/* ─── MARQUEE ───────────────────────────────── */
+@keyframes marquee-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes marquee-right { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+.marquee-left { animation: marquee-left 25s linear infinite; }
+.marquee-right { animation: marquee-right 25s linear infinite; }
+.marquee-slow { animation: marquee-left 45s linear infinite; }
+
+/* ─── REVEAL ────────────────────────────────── */
+.reveal-up {
+  opacity: 0; transform: translateY(60px);
+  transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-up.visible { opacity: 1; transform: translateY(0); }
+
+.reveal-left {
+  opacity: 0; transform: translateX(-40px);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+
+.reveal-scale {
+  opacity: 0; transform: scale(0.92);
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-scale.visible { opacity: 1; transform: scale(1); }
+
+/* ─── WORD REVEAL ───────────────────────────── */
+.word-reveal .word {
+  display: inline-block;
+  opacity: 0; transform: translateY(30px) rotateX(-40deg);
+  transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  margin-right: 0.28em;
+  transform-origin: bottom;
+}
+.word-reveal.visible .word { opacity: 1; transform: translateY(0) rotateX(0deg); }
+.word-reveal.visible .word:nth-child(1) { transition-delay: 0s; }
+.word-reveal.visible .word:nth-child(2) { transition-delay: 0.04s; }
+.word-reveal.visible .word:nth-child(3) { transition-delay: 0.08s; }
+.word-reveal.visible .word:nth-child(4) { transition-delay: 0.12s; }
+.word-reveal.visible .word:nth-child(5) { transition-delay: 0.16s; }
+.word-reveal.visible .word:nth-child(6) { transition-delay: 0.2s; }
+.word-reveal.visible .word:nth-child(7) { transition-delay: 0.24s; }
+.word-reveal.visible .word:nth-child(8) { transition-delay: 0.28s; }
+.word-reveal.visible .word:nth-child(9) { transition-delay: 0.32s; }
+.word-reveal.visible .word:nth-child(10) { transition-delay: 0.36s; }
+.word-reveal.visible .word:nth-child(11) { transition-delay: 0.4s; }
+.word-reveal.visible .word:nth-child(12) { transition-delay: 0.44s; }
+.word-reveal.visible .word:nth-child(13) { transition-delay: 0.48s; }
+.word-reveal.visible .word:nth-child(14) { transition-delay: 0.52s; }
+.word-reveal.visible .word:nth-child(15) { transition-delay: 0.56s; }
+.word-reveal.visible .word:nth-child(16) { transition-delay: 0.6s; }
+.word-reveal.visible .word:nth-child(17) { transition-delay: 0.64s; }
+.word-reveal.visible .word:nth-child(18) { transition-delay: 0.68s; }
+.word-reveal.visible .word:nth-child(19) { transition-delay: 0.72s; }
+.word-reveal.visible .word:nth-child(20) { transition-delay: 0.76s; }
+
+/* ─── HERO TEXT SCRAMBLE ────────────────────── */
+@keyframes hero-slide-up {
+  from { opacity: 0; transform: translateY(100%) rotateX(-20deg); }
+  to { opacity: 1; transform: translateY(0) rotateX(0deg); }
+}
+.hero-char {
+  display: inline-block;
+  animation: hero-slide-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ─── BACKGROUND GRADIENT BLOB ──────────────── */
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -40px) scale(1.05); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(15px, 30px) scale(1.02); }
+}
+.blob { animation: blob-float 12s ease-in-out infinite; }
+.blob-2 { animation: blob-float 15s ease-in-out infinite reverse; }
+
+/* ─── PULSE ─────────────────────────────────── */
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(0, 200, 83, 0); }
+}
+.pulse-dot { animation: pulse-green 2s ease-in-out infinite; }
+
+/* ─── SPIN ──────────────────────────────────── */
+@keyframes spin-slow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 20s linear infinite; }
+
+/* ─── FLOATING ──────────────────────────────── */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.float-anim { animation: float-y 4s ease-in-out infinite; }
+.float-anim-d1 { animation: float-y 4.5s ease-in-out infinite 0.3s; }
+.float-anim-d2 { animation: float-y 5s ease-in-out infinite 0.6s; }
+.float-anim-d3 { animation: float-y 3.5s ease-in-out infinite 0.9s; }
+
+/* ─── TECH ORBIT ────────────────────────────── */
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(var(--orbit-r)) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(var(--orbit-r)) rotate(-360deg); }
+}
+.orbit-item {
+  position: absolute;
+  top: 50%; left: 50%;
+  margin: -24px 0 0 -24px;
+  animation: orbit var(--orbit-dur) linear infinite;
+}
+
+/* ─── SERVICE CARD ──────────────────────────── */
+.service-hover {
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.service-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.08);
+  border-color: var(--green) !important;
+}
+.service-hover:hover .svc-num {
+  color: var(--green);
+}
+
+/* ─── PROCESS LINE ──────────────────────────── */
+@keyframes line-grow { from { height: 0; } to { height: 100%; } }
+.process-line-anim { animation: line-grow 2s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+/* ─── TESTIMONIAL ───────────────────────────── */
+@keyframes slide-testimonial {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.testimonial-scroll { animation: slide-testimonial 30s linear infinite; }
+.testimonial-scroll:hover { animation-play-state: paused; }
+
+/* ─── FAQ ────────────────────────────────────── */
+.faq-answer {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1), padding 0.3s ease;
+}
+.faq-answer.open { max-height: 300px; }
+
+/* ─── TILT CARD ─────────────────────────────── */
+.tilt-card {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s;
+  transform-style: preserve-3d; perspective: 1000px;
+}
+.tilt-card:hover {
+  box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+}
+
+/* ─── MAGNETIC BUTTON ───────────────────────── */
+.magnetic-btn {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ─── BLUR TEXT REVEAL (Hanzo-style) ─────────── */
+@keyframes blur-reveal {
+  0% { opacity: 0; filter: blur(12px); transform: translateY(20px); }
+  60% { filter: blur(4px); }
+  100% { opacity: 1; filter: blur(0px); transform: translateY(0); }
+}
+.blur-word {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(12px);
+  animation: blur-reveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  margin-right: 0.28em;
+}
+
+/* ─── HERO LINE CLIP REVEAL ──────────────────── */
+@keyframes line-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0% 0 0); }
+}
+.line-reveal {
+  clip-path: inset(0 100% 0 0);
+  animation: line-reveal 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ─── BENTO SERVICE CARDS ────────────────────── */
+.bento-card {
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+  position: relative;
+}
+.bento-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.1);
+}
+.bento-card .bento-arrow {
+  opacity: 0; transform: translateX(-10px);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.bento-card:hover .bento-arrow {
+  opacity: 1; transform: translateX(0);
+}
+.bento-card .bento-icon {
+  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.bento-card:hover .bento-icon {
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* ─── ABOUT WORD REVEAL ──────────────────────── */
+.about-word {
+  will-change: transform, opacity;
+}
+
+/* ─── FOOTER LINK HOVER ──────────────────────── */
+.footer-link {
+  position: relative;
+  transition: color 0.3s;
+}
+.footer-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--green);
+  transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.footer-link:hover::after { width: 100%; }
+.footer-link:hover { color: #fff; }
