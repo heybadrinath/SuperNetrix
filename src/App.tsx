@@ -873,7 +873,7 @@ function CTA() {
   return (
     <section id="contact" className="w-full relative px-3 md:px-8 pt-8 md:pt-12 pb-0 bg-[#fafafa]">
       {/* Blue rounded card */}
-      <div className="w-full max-w-[1600px] mx-auto bg-[#1e4bff] rounded-[2rem] md:rounded-[3rem] pt-20 md:pt-32 pb-32 md:pb-44 px-4 md:px-12 relative overflow-hidden">
+      <div className="w-full max-w-[1600px] mx-auto bg-[#1e4bff] rounded-[2rem] md:rounded-[3rem] pt-20 md:pt-32 pb-40 md:pb-52 px-4 md:px-12 relative overflow-hidden">
         {/* Subtle gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#1e4bff] via-[#1e4bff] to-[#1a42e6] pointer-events-none rounded-[inherit]" />
         {/* Decorative blobs */}
@@ -890,7 +890,7 @@ function CTA() {
 
             {/* Heading */}
             <h2 className="text-[clamp(2.5rem,6vw,5.5rem)] font-black tracking-[-0.02em] text-white leading-[1] mb-6" style={{ fontFamily: 'Plus Jakarta Sans' }}>
-              Ready to <span className="italic text-[#00c853]" style={{ fontFamily: 'Georgia, Times, serif' }}>Scale</span><br />Your Business?
+              Ready to <span className="italic text-[#c8ff00]" style={{ fontFamily: 'Georgia, Times, serif' }}>Scale</span><br />Your Business?
             </h2>
             <p className="text-white/60 text-base md:text-lg max-w-lg mx-auto leading-relaxed mb-10">
               Whether you need a high-performance web app, a mobile solution, or an AI integration, our team is ready to engineer your success.
@@ -899,7 +899,7 @@ function CTA() {
 
           {/* Buttons */}
           <div className="reveal-up flex flex-col sm:flex-row gap-4 justify-center items-center" ref={useReveal()}>
-            <a href="mailto:hello@supernetrix.com" data-hover className="group inline-flex items-center gap-3 bg-[#00c853] text-[#0b0b0b] font-bold px-8 py-4 rounded-full hover:bg-[#00e676] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,200,83,0.4)] text-sm uppercase tracking-wider">
+            <a href="mailto:hello@supernetrix.com" data-hover className="group inline-flex items-center gap-3 bg-[#c8ff00] text-[#0b0b0b] font-bold px-8 py-4 rounded-full hover:bg-[#d4ff33] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(200,255,0,0.4)] text-sm uppercase tracking-wider">
               Start A Project
               <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </a>
@@ -911,9 +911,14 @@ function CTA() {
         </div>
       </div>
 
-      {/* Single angled marquee overlapping the bottom of the card */}
-      <div className="relative -mt-8 md:-mt-12 z-20 overflow-hidden max-w-[1600px] mx-auto">
-        <div className="-rotate-[3deg] scale-x-[1.15] origin-center">
+      {/* Dual-layer marquee */}
+      <div className="relative -mt-12 md:-mt-16 z-20 overflow-hidden max-w-[1600px] mx-auto">
+        {/* Back layer — lighter, opposite direction */}
+        <div className="rotate-[2deg] scale-x-[1.2] origin-center opacity-[0.15] mb-1">
+          <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦']} reverse className="text-[clamp(1.8rem,5vw,3.5rem)] font-black text-[#0b0b0b] tracking-tight" />
+        </div>
+        {/* Front layer — bold, primary */}
+        <div className="-rotate-[3deg] scale-x-[1.2] origin-center">
           <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦']} className="text-[clamp(1.8rem,5vw,3.5rem)] font-black text-[#0b0b0b] tracking-tight" />
         </div>
       </div>
