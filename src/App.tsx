@@ -983,14 +983,18 @@ function CTA() {
       </div>
 
       {/* Marquee bands — sujalbuild.in style */}
-      <div className="relative -mt-10 md:-mt-14 z-20 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
+      <div className="relative -mt-10 md:-mt-14 z-20 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen overflow-hidden">
         {/* Lime band */}
-        <div className="rotate-[1.2deg] origin-center bg-[#c8ff00] py-3 md:py-4">
-          <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦']} className="text-[clamp(1.5rem,4vw,2.8rem)] font-black text-[#0b0b0b] tracking-tight" />
+        <div className="-rotate-[1deg] origin-center">
+          <div className="bg-[#c8ff00] py-3 md:py-4 w-[110vw] -ml-[5vw]">
+            <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦']} className="text-[clamp(1.5rem,4vw,2.8rem)] font-black text-[#0b0b0b] tracking-tight" />
+          </div>
         </div>
-        {/* Blue band — overlaps lime slightly */}
-        <div className="-rotate-[1.2deg] origin-center bg-[#1e4bff] py-3 md:py-4 -mt-3 md:-mt-4">
-          <Marquee items={['MOBILE APP EXPERTS', '✦', 'AI INTEGRATION', '✦', 'WEB PLATFORMS', '✦']} reverse className="text-[clamp(1.5rem,4vw,2.8rem)] font-black text-white tracking-tight" />
+        {/* Blue band */}
+        <div className="rotate-[1deg] origin-center mt-1">
+          <div className="bg-[#1e4bff] py-3 md:py-4 w-[110vw] -ml-[5vw]">
+            <Marquee items={['MOBILE APP EXPERTS', '✦', 'AI INTEGRATION', '✦', 'WEB PLATFORMS', '✦']} reverse className="text-[clamp(1.5rem,4vw,2.8rem)] font-black text-white tracking-tight" />
+          </div>
         </div>
       </div>
     </section>
