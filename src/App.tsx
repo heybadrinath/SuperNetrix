@@ -354,10 +354,12 @@ function WhatWeBuild() {
 /* ═══════════════════════ TRIPLE MARQUEE ═══════════════════════ */
 function TripleMarquee() {
   return (
-    <section className="relative w-full py-8 md:py-12 bg-white -rotate-[2deg] scale-x-[1.05] overflow-hidden">
-      <Marquee items={['BUILD THE FUTURE', '✦', 'SHIP FAST', '✦', 'SCALE GLOBALLY']} className="text-[clamp(2rem,5vw,4rem)] font-extrabold text-[#0b0b0b] tracking-tight mb-3" />
-      <Marquee items={['PRODUCT ENGINEERING', '✦', 'AI INTEGRATION', '✦', 'WEB PLATFORMS']} reverse className="text-[clamp(2rem,5vw,4rem)] font-extrabold text-[#0b0b0b]/[0.06] tracking-tight mb-3" />
-      <Marquee items={['SUPERNETRIX', '≈', 'MASTERS AT WORK', '≈', 'ENGINEER THE OUTCOME']} className="text-[clamp(1rem,2.5vw,1.6rem)] font-bold text-[#00c853]/50 tracking-[0.05em]" speed="marquee-slow" />
+    <section className="relative w-full bg-white overflow-hidden">
+      <div className="py-8 md:py-12 -rotate-[2deg] scale-[1.08] origin-center">
+        <Marquee items={['BUILD THE FUTURE', '✦', 'SHIP FAST', '✦', 'SCALE GLOBALLY']} className="text-[clamp(2rem,5vw,4rem)] font-extrabold text-[#0b0b0b] tracking-tight mb-3" />
+        <Marquee items={['PRODUCT ENGINEERING', '✦', 'AI INTEGRATION', '✦', 'WEB PLATFORMS']} reverse className="text-[clamp(2rem,5vw,4rem)] font-extrabold text-[#0b0b0b]/[0.06] tracking-tight mb-3" />
+        <Marquee items={['SUPERNETRIX', '≈', 'MASTERS AT WORK', '≈', 'ENGINEER THE OUTCOME']} className="text-[clamp(1rem,2.5vw,1.6rem)] font-bold text-[#00c853]/50 tracking-[0.05em]" speed="marquee-slow" />
+      </div>
     </section>
   )
 }
@@ -981,18 +983,14 @@ function CTA() {
       </div>
 
       {/* Marquee bands — sujalbuild.in style */}
-      <div className="relative -mt-10 md:-mt-14 z-20 max-w-[1600px] mx-auto space-y-2 overflow-visible">
+      <div className="relative -mt-10 md:-mt-14 z-20 space-y-2 left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
         {/* Lime band — tilted */}
-        <div className="rotate-[2deg] origin-center">
-          <div className="bg-[#c8ff00] py-3 md:py-4 w-[120%] -ml-[10%]">
-            <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦']} className="text-[clamp(1.5rem,4vw,2.8rem)] font-black text-[#0b0b0b] tracking-tight" />
-          </div>
+        <div className="rotate-[2deg] origin-center bg-[#c8ff00] py-3 md:py-4">
+          <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦']} className="text-[clamp(1.5rem,4vw,2.8rem)] font-black text-[#0b0b0b] tracking-tight" />
         </div>
         {/* Blue band — tilted opposite */}
-        <div className="-rotate-[2deg] origin-center">
-          <div className="bg-[#1e4bff] py-3 md:py-4 w-[120%] -ml-[10%]">
-            <Marquee items={['MOBILE APP EXPERTS', '✦', 'AI INTEGRATION', '✦', 'WEB PLATFORMS', '✦']} reverse className="text-[clamp(1.5rem,4vw,2.8rem)] font-black text-white tracking-tight" />
-          </div>
+        <div className="-rotate-[2deg] origin-center bg-[#1e4bff] py-3 md:py-4">
+          <Marquee items={['MOBILE APP EXPERTS', '✦', 'AI INTEGRATION', '✦', 'WEB PLATFORMS', '✦']} reverse className="text-[clamp(1.5rem,4vw,2.8rem)] font-black text-white tracking-tight" />
         </div>
       </div>
     </section>
