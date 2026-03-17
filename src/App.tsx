@@ -983,13 +983,13 @@ function CTA() {
       </div>
 
       {/* Marquee bands — sujalbuild.in style */}
-      <div className="relative -mt-10 md:-mt-14 z-20">
+      <div className="relative -mt-10 md:-mt-14 z-20 -rotate-[1.5deg]" style={{ marginLeft: '-5vw', marginRight: '-5vw' }}>
         {/* Lime band */}
-        <div className="-rotate-[1deg] bg-[#c8ff00] py-3 md:py-4" style={{ marginLeft: '-5vw', marginRight: '-5vw' }}>
+        <div className="bg-[#c8ff00] py-3 md:py-4">
           <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦']} className="text-[clamp(1.5rem,4vw,2.8rem)] font-black text-[#0b0b0b] tracking-tight" />
         </div>
         {/* Blue band */}
-        <div className="rotate-[1deg] bg-[#1e4bff] py-3 md:py-4 mt-1" style={{ marginLeft: '-5vw', marginRight: '-5vw' }}>
+        <div className="bg-[#1e4bff] py-3 md:py-4 mt-1">
           <Marquee items={['MOBILE APP EXPERTS', '✦', 'AI INTEGRATION', '✦', 'WEB PLATFORMS', '✦']} reverse className="text-[clamp(1.5rem,4vw,2.8rem)] font-black text-white tracking-tight" />
         </div>
       </div>
