@@ -270,8 +270,16 @@ body {
 }
 
 /* ─── ABOUT WORD REVEAL ──────────────────────── */
-.about-word {
-  will-change: transform, opacity;
+.about-word-blur {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1),
+              filter 0.8s cubic-bezier(0.22,1,0.36,1),
+              transform 0.8s cubic-bezier(0.22,1,0.36,1);
+  will-change: opacity, filter, transform;
+  margin-right: 0.28em;
 }
 
 /* ─── FOOTER LINK HOVER ──────────────────────── */

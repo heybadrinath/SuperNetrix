@@ -244,12 +244,13 @@ function About() {
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
-    const words = container.querySelectorAll('.about-word')
+    const words = container.querySelectorAll('.about-word-blur')
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const el = entry.target as HTMLElement
           el.style.opacity = '1'
+          el.style.filter = 'blur(0px)'
           el.style.transform = 'translateY(0)'
           obs.unobserve(el)
         }
@@ -260,7 +261,7 @@ function About() {
   }, [])
 
   return (
-    <section id="about" className="max-w-[1600px] mx-auto px-4 md:px-12 py-20 md:py-40 bg-white">
+    <section id="about" className="max-w-[1600px] mx-auto px-4 md:px-12 py-16 md:py-28 bg-white">
       <div className="reveal-up" ref={useReveal()}>
         <h2 className="text-[clamp(2.5rem,5vw,4rem)] font-extrabold tracking-tight leading-[1.05] text-[#0b0b0b] mb-4" style={{ fontFamily: 'Plus Jakarta Sans' }}>
           MORE THAN <span className="italic text-[#00c853] relative">code<svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 100 6" fill="none"><path d="M0 5C25 1 75 1 100 5" stroke="#00c853" strokeWidth="2" strokeLinecap="round"/></svg></span>
@@ -270,12 +271,10 @@ function About() {
         <span className="reveal-up text-xs font-semibold uppercase tracking-[0.15em] text-[#888] border border-[#e5e5e5] px-3 py-1 rounded-full" ref={useReveal()}>About Us</span>
         <span className="reveal-up text-xs font-semibold uppercase tracking-[0.15em] text-[#888] border border-[#e5e5e5] px-3 py-1 rounded-full" ref={useReveal()}>The Vision</span>
       </div>
-      <div ref={containerRef} className="text-[clamp(1.3rem,3vw,2.2rem)] font-medium leading-[1.55] text-[#0b0b0b] max-w-4xl" style={{ perspective: '600px' }}>
+      <div ref={containerRef} className="text-[clamp(1.3rem,3vw,2.2rem)] font-medium leading-[1.55] text-[#0b0b0b] max-w-4xl">
         {text.split(' ').map((word, i) => (
-          <span key={i} className="about-word inline-block mr-[0.28em]" style={{
-            opacity: 0,
-            transform: 'translateY(100px)',
-            transition: `all 0.8s cubic-bezier(0.22, 1, 0.36, 1) ${i * 0.03}s`
+          <span key={i} className="about-word-blur" style={{
+            transitionDelay: `${i * 0.03}s`
           }}>{word}</span>
         ))}
       </div>
@@ -310,12 +309,12 @@ function Stats() {
 /* ═══════════════════════ WHAT WE BUILD (replaces Building For) ═══════════════════════ */
 function WhatWeBuild() {
   const items = [
-    { label: 'SaaS Platforms', desc: 'Multi-tenant, scalable', icon: '◆' },
-    { label: 'AI Systems', desc: 'LLMs, agents, automation', icon: '◈' },
-    { label: 'Web Applications', desc: 'React, Next.js, MERN', icon: '◇' },
-    { label: 'Mobile Apps', desc: 'Cross-platform native', icon: '○' },
-    { label: 'Data Platforms', desc: 'Visualization & analytics', icon: '△' },
-    { label: 'API Systems', desc: 'Microservices & integrations', icon: '□' },
+    { label: 'SaaS Platforms', desc: 'Multi-tenant, scalable', icon: '◆', num: '01' },
+    { label: 'AI Systems', desc: 'LLMs, agents, automation', icon: '◈', num: '02' },
+    { label: 'Web Applications', desc: 'React, Next.js, MERN', icon: '◇', num: '03' },
+    { label: 'Mobile Apps', desc: 'Cross-platform native', icon: '○', num: '04' },
+    { label: 'Data Platforms', desc: 'Visualization & analytics', icon: '△', num: '05' },
+    { label: 'API Systems', desc: 'Microservices & integrations', icon: '□', num: '06' },
   ]
   return (
     <section className="w-full bg-[#0b0b0b] py-20 md:py-28 px-4 md:px-12 overflow-hidden">
@@ -330,10 +329,19 @@ function WhatWeBuild() {
           {items.map((item, i) => {
             const ref = useReveal('reveal-scale', 0.1)
             return (
-              <div key={i} ref={ref} data-hover className="group relative rounded-2xl border border-[#222] p-5 md:p-8 hover:border-[#00c853] transition-all duration-500 hover:bg-[#111] overflow-hidden">
-                <div className="absolute top-4 right-4 text-3xl md:text-4xl text-[#00c853]/10 group-hover:text-[#00c853]/30 transition-all duration-500 group-hover:scale-125">{item.icon}</div>
+              <div key={i} ref={ref} data-hover className="shimmer-hover group relative rounded-2xl border border-[#222] p-5 md:p-8 hover:border-[#00c853] transition-all duration-500 hover:bg-[#111] overflow-hidden">
+                {/* Number watermark */}
+                <span className="absolute bottom-3 right-4 text-[60px] md:text-[80px] font-black leading-none text-white/[0.03] group-hover:text-[#00c853]/[0.08] transition-all duration-700 select-none pointer-events-none" style={{ fontFamily: 'Space Grotesk' }}>{item.num}</span>
+                {/* Icon with glow */}
+                <div className="text-4xl md:text-5xl text-[#00c853]/20 group-hover:text-[#00c853]/50 transition-all duration-500 group-hover:scale-110 group-hover:drop-shadow-[0_0_12px_rgba(0,200,83,0.3)] mb-3">{item.icon}</div>
                 <h3 className="text-base md:text-xl font-bold text-white mb-1 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Space Grotesk' }}>{item.label}</h3>
                 <p className="text-sm text-[#666] group-hover:text-[#888] transition-colors">{item.desc}</p>
+                {/* Explore arrow */}
+                <span className="inline-flex items-center gap-1.5 mt-3 text-xs font-semibold text-[#00c853] opacity-0 group-hover:opacity-100 -translate-x-3 group-hover:translate-x-0 transition-all duration-500">
+                  Explore <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </span>
+                {/* Bottom accent bar */}
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-[#00c853] w-0 group-hover:w-2/3 transition-all duration-500 rounded-full" />
               </div>
             )
           })}
@@ -346,7 +354,7 @@ function WhatWeBuild() {
 /* ═══════════════════════ TRIPLE MARQUEE ═══════════════════════ */
 function TripleMarquee() {
   return (
-    <section className="relative w-full py-8 md:py-12 bg-white overflow-hidden -rotate-1">
+    <section className="relative w-full py-8 md:py-12 bg-white overflow-hidden -rotate-[2.5deg] scale-x-[1.1]">
       <Marquee items={['BUILD THE FUTURE', '✦', 'SHIP FAST', '✦', 'SCALE GLOBALLY']} className="text-[clamp(2rem,5vw,4rem)] font-extrabold text-[#0b0b0b] tracking-tight mb-3" />
       <Marquee items={['PRODUCT ENGINEERING', '✦', 'AI INTEGRATION', '✦', 'WEB PLATFORMS']} reverse className="text-[clamp(2rem,5vw,4rem)] font-extrabold text-[#0b0b0b]/[0.06] tracking-tight mb-3" />
       <Marquee items={['SUPERNETRIX', '≈', 'MASTERS AT WORK', '≈', 'ENGINEER THE OUTCOME']} className="text-[clamp(1rem,2.5vw,1.6rem)] font-bold text-[#00c853]/50 tracking-[0.05em]" speed="marquee-slow" />
@@ -357,6 +365,7 @@ function TripleMarquee() {
 /* ═══════════════════════ PROJECTS ═══════════════════════ */
 function Projects() {
   const [activeIdx, setActiveIdx] = useState(0)
+  const [modalProject, setModalProject] = useState<number | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const projects = [
     { name: 'VoiceGuard AI', cat: 'AI / Call Analytics', desc: 'Smart call monitoring platform processing thousands of calls daily, extracting insights that improve sales performance. From zero to production in 8 weeks.', color: '#00c853', url: 'https://voiceguardai.co' },
@@ -376,6 +385,18 @@ function Projects() {
     }
   }, [])
 
+  // Modal: lock body scroll + ESC to close
+  useEffect(() => {
+    if (modalProject !== null) {
+      document.body.style.overflow = 'hidden'
+      const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setModalProject(null) }
+      window.addEventListener('keydown', onKey)
+      return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey) }
+    } else {
+      document.body.style.overflow = ''
+    }
+  }, [modalProject])
+
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
@@ -389,7 +410,7 @@ function Projects() {
   }, [])
 
   return (
-    <section id="work" className="max-w-[1600px] mx-auto px-4 md:px-12 py-20 md:py-28 bg-white">
+    <section id="work" className="max-w-[1600px] mx-auto px-4 md:px-12 py-16 md:py-20 bg-white">
       {/* Header with pagination */}
       <div className="flex items-end justify-between mb-10 md:mb-14">
         <div className="reveal-up" ref={useReveal()}>
@@ -410,10 +431,10 @@ function Projects() {
       </div>
 
       {/* Project cards — horizontal scroll */}
-      <div ref={scrollRef} className="flex gap-5 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+      <div ref={scrollRef} className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
         {projects.map((p, i) => (
-          <a key={i} href={p.url} target="_blank" rel="noopener" data-hover
-            className="snap-start flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-[540px] lg:w-[600px] rounded-2xl md:rounded-3xl border border-[#e5e5e5] overflow-hidden bg-white group hover:border-[#00c853]/50 transition-all duration-500 hover:shadow-[0_30px_80px_rgba(0,0,0,0.08)]">
+          <div key={i} onClick={() => setModalProject(i)} data-hover
+            className="snap-start flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-[540px] lg:w-[600px] rounded-2xl md:rounded-3xl border border-[#e5e5e5] overflow-hidden bg-white group hover:border-[#00c853]/50 transition-all duration-500 hover:shadow-[0_30px_80px_rgba(0,0,0,0.08)] cursor-pointer">
             {/* Visual header */}
             <div className="relative h-[200px] sm:h-[260px] md:h-[320px] overflow-hidden" style={{ background: `linear-gradient(135deg, ${p.color}12, ${p.color}05)` }}>
               {/* Large letter watermark */}
@@ -432,22 +453,56 @@ function Projects() {
             {/* Info */}
             <div className="p-5 md:p-7">
               <h3 className="text-xl md:text-2xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>{p.name}</h3>
-              <p className="text-sm text-[#666] leading-relaxed">{p.desc}</p>
+              <p className="text-sm text-[#666] leading-relaxed line-clamp-2">{p.desc}</p>
               <span className="inline-flex items-center gap-1.5 mt-4 text-xs font-semibold text-[#888] group-hover:text-[#00c853] transition-colors">
-                Read more
+                View details
                 <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
               </span>
             </div>
-          </a>
+          </div>
         ))}
       </div>
 
       {/* Progress dots */}
-      <div className="flex items-center justify-center gap-2 mt-6">
+      <div className="flex items-center justify-center gap-2 mt-4">
         {projects.map((_, i) => (
           <button key={i} onClick={() => scrollTo(i)} className={`h-1.5 rounded-full transition-all duration-300 ${activeIdx === i ? 'w-8 bg-[#00c853]' : 'w-1.5 bg-[#ddd]'}`} />
         ))}
       </div>
+
+      {/* Project Modal */}
+      {modalProject !== null && (() => {
+        const p = projects[modalProject]
+        return (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4" onClick={() => setModalProject(null)}>
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+            {/* Modal card */}
+            <div className="relative z-10 w-full max-w-2xl bg-white rounded-3xl overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+              {/* Visual header */}
+              <div className="relative h-[200px] md:h-[260px] overflow-hidden" style={{ background: `linear-gradient(135deg, ${p.color}20, ${p.color}08)` }}>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-[160px] md:text-[200px] font-black leading-none opacity-[0.08] select-none" style={{ color: p.color, fontFamily: 'Space Grotesk' }}>{p.name.charAt(0)}</span>
+                </div>
+                <div className="absolute top-5 left-5 px-3.5 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider backdrop-blur-md" style={{ background: p.color + '18', color: p.color }}>{p.cat}</div>
+                {/* Close button */}
+                <button onClick={() => setModalProject(null)} className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-colors shadow-lg">
+                  <svg className="w-5 h-5 text-[#0b0b0b]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+              {/* Content */}
+              <div className="p-6 md:p-10">
+                <h3 className="text-2xl md:text-3xl font-bold text-[#0b0b0b] mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>{p.name}</h3>
+                <p className="text-[#666] text-sm md:text-base leading-relaxed mb-8">{p.desc}</p>
+                <a href={p.url} target="_blank" rel="noopener" data-hover className="inline-flex items-center gap-3 bg-[#0b0b0b] text-white font-semibold px-6 py-3.5 rounded-full hover:bg-[#00c853] transition-all duration-300 text-sm">
+                  Visit Website
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
     </section>
   )
 }
@@ -463,7 +518,7 @@ const techIcons: Record<string, JSX.Element> = {
   Docker: <svg viewBox="0 0 256 256" className="w-full h-full"><rect x="48" y="100" width="160" height="96" rx="12" fill="none" stroke="currentColor" strokeWidth="7"/>{[0,1,2,3,4].map(i=><rect key={i} x={56+i*30} y={108} width={24} height={20} rx={3} fill="currentColor" opacity={0.2} stroke="currentColor" strokeWidth={2}/>)}{[0,1,2].map(i=><rect key={i+5} x={86+i*30} y={80} width={24} height={20} rx={3} fill="currentColor" opacity={0.15} stroke="currentColor" strokeWidth={2}/>)}<path d="M28 148c-8-4-12-12-8-20" stroke="currentColor" strokeWidth="5" strokeLinecap="round" fill="none"/></svg>,
   PostgreSQL: <svg viewBox="0 0 256 256" className="w-full h-full"><ellipse cx="128" cy="80" rx="72" ry="40" fill="none" stroke="currentColor" strokeWidth="7"/><path d="M56 80v96c0 22 32 40 72 40s72-18 72-40V80" fill="none" stroke="currentColor" strokeWidth="7"/><path d="M56 128c0 22 32 40 72 40s72-18 72-40" fill="none" stroke="currentColor" strokeWidth="5" opacity="0.4"/></svg>,
   Redis: <svg viewBox="0 0 256 256" className="w-full h-full"><path d="M128 40l88 44v84l-88 44-88-44V84z" fill="currentColor" opacity="0.1" stroke="currentColor" strokeWidth="6"/><circle cx="128" cy="128" r="28" fill="none" stroke="currentColor" strokeWidth="6"/><path d="M128 100v-30M128 156v30M100 128h-30M156 128h30" stroke="currentColor" strokeWidth="5" strokeLinecap="round"/></svg>,
-  'Tailwind CSS': <svg viewBox="0 0 256 256" className="w-full h-full"><path d="M64 128q16-48 64-48 72 0 32 48-16 48-64 48-72 0-32-48z" fill="none" stroke="currentColor" strokeWidth="7" strokeLinejoin="round"/><path d="M96 128q16-48 64-48" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round"/></svg>,
+  Python: <svg viewBox="0 0 256 256" className="w-full h-full"><path d="M126 8C80 8 56 30 56 60v28h72v8H44c-24 0-44 20-44 56s16 56 40 56h24v-32c0-24 16-44 40-44h72c20 0 36-16 36-36V60c0-28-26-52-86-52zm-40 28a12 12 0 110 24 12 12 0 010-24z" fill="currentColor" opacity="0.7"/><path d="M130 248c46 0 70-22 70-52v-28h-72v-8h84c24 0 44-20 44-56s-16-56-40-56h-24v32c0 24-16 44-40 44H80c-20 0-36 16-36 36v36c0 28 26 52 86 52zm40-28a12 12 0 110-24 12 12 0 010 24z" fill="currentColor" opacity="0.4"/></svg>,
   Kubernetes: <svg viewBox="0 0 256 256" className="w-full h-full"><circle cx="128" cy="128" r="100" fill="none" stroke="currentColor" strokeWidth="6"/><path d="M128 28v200M28 128h200M52 52l152 152M204 52L52 204" stroke="currentColor" strokeWidth="3" opacity="0.2"/><circle cx="128" cy="128" r="36" fill="none" stroke="currentColor" strokeWidth="6"/><circle cx="128" cy="128" r="8" fill="currentColor"/></svg>,
   GraphQL: <svg viewBox="0 0 256 256" className="w-full h-full"><polygon points="128,32 220,84 220,172 128,224 36,172 36,84" fill="none" stroke="currentColor" strokeWidth="6"/><circle cx="128" cy="32" r="12" fill="currentColor"/><circle cx="220" cy="84" r="12" fill="currentColor"/><circle cx="220" cy="172" r="12" fill="currentColor"/><circle cx="128" cy="224" r="12" fill="currentColor"/><circle cx="36" cy="172" r="12" fill="currentColor"/><circle cx="36" cy="84" r="12" fill="currentColor"/></svg>,
 }
@@ -482,10 +537,25 @@ function TechStack() {
     { name: 'Docker', color: '#2496ed', desc: 'Containers', tag: 'DevOps' },
     { name: 'PostgreSQL', color: '#336791', desc: 'SQL DB', tag: 'Database' },
     { name: 'Redis', color: '#dc382d', desc: 'In-Memory', tag: 'Caching' },
-    { name: 'Tailwind CSS', color: '#06b6d4', desc: 'Utility CSS', tag: 'Styling' },
+    { name: 'Python', color: '#3776ab', desc: 'Language', tag: 'Backend' },
     { name: 'Kubernetes', color: '#326ce5', desc: 'Orchestration', tag: 'DevOps' },
     { name: 'GraphQL', color: '#e10098', desc: 'Query Lang', tag: 'API' },
   ]
+
+  const techBgs: Record<string, string> = {
+    React: 'repeating-linear-gradient(135deg, transparent 0px, transparent 8px, rgba(97,218,251,0.04) 8px, rgba(97,218,251,0.04) 16px)',
+    'Node.js': 'radial-gradient(circle at 30% 70%, rgba(51,153,51,0.08) 0%, transparent 60%)',
+    'Next.js': 'repeating-linear-gradient(90deg, transparent 0px, transparent 12px, rgba(11,11,11,0.03) 12px, rgba(11,11,11,0.03) 24px)',
+    TypeScript: 'linear-gradient(135deg, rgba(49,120,198,0.06) 0%, transparent 50%, rgba(49,120,198,0.04) 100%)',
+    AWS: 'radial-gradient(ellipse at 70% 30%, rgba(255,153,0,0.08) 0%, transparent 60%)',
+    MongoDB: 'repeating-conic-gradient(rgba(71,162,72,0.04) 0deg, transparent 30deg, transparent 60deg)',
+    Docker: 'repeating-linear-gradient(0deg, transparent 0px, transparent 10px, rgba(36,150,237,0.03) 10px, rgba(36,150,237,0.03) 20px)',
+    PostgreSQL: 'radial-gradient(circle at 50% 50%, rgba(51,103,145,0.08) 0%, transparent 70%)',
+    Redis: 'linear-gradient(45deg, rgba(220,56,45,0.05) 25%, transparent 25%, transparent 75%, rgba(220,56,45,0.05) 75%)',
+    Python: 'repeating-linear-gradient(45deg, rgba(55,118,171,0.04) 0px, rgba(55,118,171,0.04) 6px, transparent 6px, transparent 12px)',
+    Kubernetes: 'radial-gradient(circle at 50% 50%, rgba(50,108,229,0.06) 20%, transparent 60%)',
+    GraphQL: 'repeating-linear-gradient(-45deg, transparent 0px, transparent 8px, rgba(225,0,152,0.04) 8px, rgba(225,0,152,0.04) 16px)',
+  }
 
   // Auto-rotate highlight every 2s
   useEffect(() => {
@@ -517,6 +587,8 @@ function TechStack() {
 
               {/* Colored glow background on hover */}
               <div className={`absolute inset-0 transition-opacity duration-700 pointer-events-none ${isHovered || isAutoActive ? 'opacity-100' : 'opacity-0'}`} style={{ background: `radial-gradient(circle at 50% 40%, ${t.color}15, transparent 70%)` }} />
+              {/* Unique decorative pattern on hover */}
+              <div className={`absolute inset-0 transition-opacity duration-700 pointer-events-none ${isHovered || isAutoActive ? 'opacity-100' : 'opacity-0'}`} style={{ background: techBgs[t.name] || 'none' }} />
 
               {/* Icon */}
               <div className={`relative z-10 w-10 h-10 md:w-16 md:h-16 mb-2 md:mb-4 transition-all duration-500 ${isHovered || isAutoActive ? 'scale-110' : ''}`} style={{ color: t.color }}>
@@ -547,8 +619,11 @@ function Milestones() {
   const [openIdx, setOpenIdx] = useState<number | null>(0)
   const items = [
     { year: '2026', title: 'Scaling to 25+ Active Clients', desc: 'Expanding the team and infrastructure to handle enterprise-grade concurrent partnerships. Building dedicated squads for each vertical.' },
+    { year: '2025', title: 'AI Division Launch', desc: 'Established a dedicated AI division focused on generative AI, LLM integration, and intelligent automation for enterprise clients.' },
     { year: '2025', title: 'VoiceGuard AI — Built & Scaled', desc: 'AI call analytics platform processing thousands of calls daily, extracting insights that improve sales performance. From zero to production in 8 weeks.' },
+    { year: '2025', title: 'First Enterprise Client', desc: 'Signed our first enterprise-level partnership, proving that boutique engineering teams can deliver at scale without the overhead.' },
     { year: '2025', title: '100% Client Retention Rate', desc: 'Every single client chose to continue working with us. That\'s the Masters at Work difference. We don\'t just deliver projects, we deliver outcomes.' },
+    { year: '2024', title: 'Team Growth to 10+', desc: 'Scaled the core team to over 10 engineers, designers, and strategists across multiple time zones. Remote-first, results-driven.' },
     { year: '2024', title: 'SuperNetrix Founded', desc: 'Launched with a mission: engineer the outcome, not just the feature. Started with 3 founding engineers and a vision to build differently.' },
   ]
   return (
@@ -580,8 +655,10 @@ function Milestones() {
                     </div>
                     <span className={`text-[#00c853] text-xl shrink-0 transition-all duration-300 ${isOpen ? 'rotate-45 scale-110' : ''}`}>+</span>
                   </button>
-                  <div className={`overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-40 pb-6' : 'max-h-0'}`}>
-                    <p className="text-[#888] text-sm leading-relaxed pl-[52px] md:pl-[72px] pr-4 md:pr-8">{item.desc}</p>
+                  <div className="grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}>
+                    <div className="overflow-hidden min-h-0">
+                      <p className={`text-[#888] text-sm leading-relaxed pl-[52px] md:pl-[72px] pr-4 md:pr-8 transition-opacity duration-500 ${isOpen ? 'opacity-100 pb-6' : 'opacity-0'}`}>{item.desc}</p>
+                    </div>
                   </div>
                 </div>
               )
@@ -717,6 +794,7 @@ function Services() {
 
 /* ═══════════════════════ PROCESS ═══════════════════════ */
 function Process() {
+  const [activeStep, setActiveStep] = useState(0)
   const steps = [
     { n: '01', t: 'Discovery', d: 'Understand the business bottleneck and the metric to be moved.' },
     { n: '02', t: 'Architecture', d: 'Design the fastest, most scalable path to the outcome.' },
@@ -724,61 +802,52 @@ function Process() {
     { n: '04', t: 'Deploy', d: 'Seamless rollouts with monitoring and stress-testing.' },
     { n: '05', t: 'Scale', d: 'Continuous optimization. We help you grow post-launch.' },
   ]
+  const revealRef = useReveal()
   return (
     <section id="process" className="max-w-[1600px] mx-auto px-4 md:px-12 py-16 md:py-24 bg-white border-t border-[#e5e5e5]">
-      <div className="reveal-up mb-10 md:mb-14" ref={useReveal()}>
+      <div className="reveal-up mb-10 md:mb-14" ref={revealRef}>
         <h2 className="text-[clamp(1.75rem,4vw,3rem)] font-extrabold tracking-tight text-[#0b0b0b]" style={{ fontFamily: 'Plus Jakarta Sans' }}>Our <span className="italic text-[#00c853]">Process</span></h2>
       </div>
 
-      {/* Vertical timeline */}
-      <div className="relative max-w-4xl mx-auto">
-        {/* Center line (desktop) */}
-        <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#00c853]/20 via-[#00c853]/40 to-[#00c853]/20 -translate-x-1/2" />
+      {/* Desktop: Horizontal stepper */}
+      <div className="hidden md:block max-w-4xl mx-auto">
+        {/* Step dots + connecting line */}
+        <div className="relative flex items-center justify-between mb-12">
+          {/* Background line */}
+          <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-[#e5e5e5] -translate-y-1/2" />
+          {/* Progress fill */}
+          <div className="absolute top-1/2 left-0 h-[2px] bg-[#00c853] -translate-y-1/2 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]" style={{ width: `${(activeStep / (steps.length - 1)) * 100}%` }} />
+          {/* Dots */}
+          {steps.map((s, i) => (
+            <button key={i} onClick={() => setActiveStep(i)} data-hover
+              className={`relative z-10 w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-500 ${i <= activeStep ? 'bg-[#00c853] border-[#00c853] text-white shadow-[0_0_16px_rgba(0,200,83,0.3)]' : 'bg-white border-[#e5e5e5] text-[#999] hover:border-[#00c853]'}`}>
+              <span className="text-xs font-bold" style={{ fontFamily: 'Space Grotesk' }}>{s.n}</span>
+            </button>
+          ))}
+        </div>
 
+        {/* Active step content */}
+        <div className="text-center p-8 md:p-12 rounded-2xl border border-[#e5e5e5] bg-[#fafafa] transition-all duration-500">
+          <span className="text-6xl md:text-7xl font-black text-[#00c853]/10 block mb-3" style={{ fontFamily: 'Space Grotesk' }}>{steps[activeStep].n}</span>
+          <h3 className="text-2xl md:text-3xl font-bold text-[#0b0b0b] mb-3" style={{ fontFamily: 'Plus Jakarta Sans' }}>{steps[activeStep].t}</h3>
+          <p className="text-[#888] text-sm md:text-base leading-relaxed max-w-lg mx-auto">{steps[activeStep].d}</p>
+        </div>
+      </div>
+
+      {/* Mobile: Vertical cards with green accent */}
+      <div className="md:hidden space-y-3">
         {steps.map((s, i) => {
-          const isEven = i % 2 === 0
-          const ref = useReveal(isEven ? 'reveal-left' : 'reveal-right', 0.15)
+          const ref = useReveal('reveal-up', 0.1)
           return (
-            <div key={i} className="relative md:flex items-center mb-8 md:mb-12 last:mb-0">
-              {/* Desktop: alternating sides */}
-              {/* Left content (odd steps on desktop) */}
-              <div className={`hidden md:block w-[calc(50%-32px)] ${isEven ? '' : 'order-2 ml-auto'}`}>
-                {isEven && (
-                  <div ref={ref} data-hover className="group p-6 md:p-8 rounded-2xl border border-[#e5e5e5] hover:border-[#00c853] transition-all duration-500 hover:bg-[#fafafa] text-right">
-                    <span className="text-5xl md:text-6xl font-black text-[#f0f0f0] group-hover:text-[#00c853]/15 transition-colors duration-500 block mb-2" style={{ fontFamily: 'Space Grotesk' }}>{s.n}</span>
-                    <h3 className="text-xl md:text-2xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>{s.t}</h3>
-                    <p className="text-sm text-[#888] leading-relaxed">{s.d}</p>
-                  </div>
-                )}
+            <div key={i} ref={ref} className="flex items-start gap-4 p-5 rounded-2xl border border-[#e5e5e5] relative overflow-hidden">
+              {/* Left green accent bar */}
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#00c853] rounded-l-2xl" />
+              <div className="w-10 h-10 rounded-full bg-[#00c853] flex items-center justify-center shrink-0">
+                <span className="text-[10px] font-bold text-white" style={{ fontFamily: 'Space Grotesk' }}>{s.n}</span>
               </div>
-
-              {/* Center dot (desktop) */}
-              <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full border-2 border-[#00c853] bg-white items-center justify-center z-10 process-pulse">
-                <span className="text-[10px] font-bold text-[#00c853]" style={{ fontFamily: 'Space Grotesk' }}>{s.n}</span>
-              </div>
-
-              {/* Right content (even steps on desktop) */}
-              <div className={`hidden md:block w-[calc(50%-32px)] ${isEven ? 'order-2 ml-auto' : ''}`}>
-                {!isEven && (
-                  <div ref={ref} data-hover className="group p-6 md:p-8 rounded-2xl border border-[#e5e5e5] hover:border-[#00c853] transition-all duration-500 hover:bg-[#fafafa]">
-                    <span className="text-5xl md:text-6xl font-black text-[#f0f0f0] group-hover:text-[#00c853]/15 transition-colors duration-500 block mb-2" style={{ fontFamily: 'Space Grotesk' }}>{s.n}</span>
-                    <h3 className="text-xl md:text-2xl font-bold text-[#0b0b0b] mb-2 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>{s.t}</h3>
-                    <p className="text-sm text-[#888] leading-relaxed">{s.d}</p>
-                  </div>
-                )}
-              </div>
-
-              {/* Mobile: full-width stacked cards */}
-              <div className="md:hidden" ref={useReveal(isEven ? 'reveal-left' : 'reveal-right', 0.15)}>
-                <div data-hover className="group flex items-start gap-4 p-5 rounded-2xl border border-[#e5e5e5] hover:border-[#00c853] transition-all duration-500">
-                  <div className="w-10 h-10 rounded-full border-2 border-[#00c853] bg-white flex items-center justify-center shrink-0 process-pulse">
-                    <span className="text-[10px] font-bold text-[#00c853]" style={{ fontFamily: 'Space Grotesk' }}>{s.n}</span>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-[#0b0b0b] mb-1 group-hover:text-[#00c853] transition-colors" style={{ fontFamily: 'Plus Jakarta Sans' }}>{s.t}</h3>
-                    <p className="text-sm text-[#888] leading-relaxed">{s.d}</p>
-                  </div>
-                </div>
+              <div>
+                <h3 className="text-lg font-bold text-[#0b0b0b] mb-1" style={{ fontFamily: 'Plus Jakarta Sans' }}>{s.t}</h3>
+                <p className="text-sm text-[#888] leading-relaxed">{s.d}</p>
               </div>
             </div>
           )
@@ -911,15 +980,19 @@ function CTA() {
         </div>
       </div>
 
-      {/* Dual-layer marquee */}
-      <div className="relative -mt-12 md:-mt-16 z-20 overflow-hidden max-w-[1600px] mx-auto">
-        {/* Back layer — lighter, opposite direction */}
-        <div className="rotate-[2deg] scale-x-[1.2] origin-center opacity-[0.15] mb-1">
-          <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦']} reverse className="text-[clamp(1.8rem,5vw,3.5rem)] font-black text-[#0b0b0b] tracking-tight" />
+      {/* Marquee bands — sujalbuild.in style */}
+      <div className="relative -mt-10 md:-mt-14 z-20 overflow-hidden max-w-[1600px] mx-auto space-y-2">
+        {/* Lime band — tilted left */}
+        <div className="rotate-[2deg] scale-x-[1.15] origin-center">
+          <div className="bg-[#c8ff00] py-3 md:py-4">
+            <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦']} className="text-[clamp(1.5rem,4vw,2.8rem)] font-black text-[#0b0b0b] tracking-tight" />
+          </div>
         </div>
-        {/* Front layer — bold, primary */}
-        <div className="-rotate-[3deg] scale-x-[1.2] origin-center">
-          <Marquee items={['DESIGN', '✦', 'DEVELOP', '✦', 'DEPLOY', '✦', 'SCALE', '✦']} className="text-[clamp(1.8rem,5vw,3.5rem)] font-black text-[#0b0b0b] tracking-tight" />
+        {/* Blue/dark band — tilted right */}
+        <div className="-rotate-[2deg] scale-x-[1.15] origin-center">
+          <div className="bg-[#1e4bff] py-3 md:py-4">
+            <Marquee items={['MOBILE APP EXPERTS', '✦', 'AI INTEGRATION', '✦', 'WEB PLATFORMS', '✦']} reverse className="text-[clamp(1.5rem,4vw,2.8rem)] font-black text-white tracking-tight" />
+          </div>
         </div>
       </div>
     </section>
